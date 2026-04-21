@@ -1,12 +1,11 @@
 {
   "build": {
     "builder": "NIXPACKS",
-    "buildCommand": "echo 'Building KURU PANEL...'"
+    "buildCommand": "echo 'Building PHP app...'"
   },
   "deploy": {
     "startCommand": "php -S 0.0.0.0:$PORT",
     "healthcheckPath": "/api.php?action=ping",
-    "restartPolicyType": "ON_FAILURE",
-    "restartPolicyMaxRetries": 10
+    "restartPolicyType": "ON_FAILURE"
   }
 }
