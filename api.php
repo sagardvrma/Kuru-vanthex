@@ -72,7 +72,7 @@ $db->exec("CREATE TABLE IF NOT EXISTS settings (
 // Default owner
 $check = $db->querySingle("SELECT COUNT(*) FROM resellers WHERE username = 'owner'");
 if ($check == 0) {
-    $hash = password_hash('admin123', PASSWORD_DEFAULT);
+    $hash = password_hash('sagarxmodder', PASSWORD_DEFAULT);
     $db->exec("INSERT INTO resellers (username, password, balance, commission) VALUES ('owner', '$hash', 999999, 100)");
 }
 
