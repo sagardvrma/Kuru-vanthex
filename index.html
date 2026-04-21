@@ -4,586 +4,87 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
     <meta name="theme-color" content="#ff006e">
-    <meta name="description" content="KURU PANEL - Professional Admin Panel for VANTHEX MOD MENU">
-    <title>KURU PANEL v11.0 - VANTHEX</title>
+    <title>KURU PANEL v12.0 - VANTHEX</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-            font-family: 'Inter', sans-serif;
-            min-height: 100vh;
-            color: #fff;
-            overflow-x: hidden;
-        }
-
-        /* Animated Background */
-        .bg-animation {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: -1;
-            overflow: hidden;
-        }
-
-        .bg-animation .circle {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 0, 100, 0.1);
-            animation: float 20s infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            50% { transform: translate(100px, 100px) rotate(180deg); }
-        }
-
-        /* Sidebar */
-        .sidebar {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 280px;
-            height: 100%;
-            background: rgba(10, 10, 20, 0.95);
-            backdrop-filter: blur(20px);
-            border-right: 1px solid rgba(255, 0, 100, 0.2);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 100;
-            overflow-y: auto;
-        }
-
-        .sidebar.collapsed {
-            left: -280px;
-        }
-
-        .sidebar::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .sidebar::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .sidebar::-webkit-scrollbar-thumb {
-            background: #ff006e;
-            border-radius: 10px;
-        }
-
-        .sidebar-header {
-            padding: 30px 20px;
-            text-align: center;
-            border-bottom: 1px solid rgba(255, 0, 100, 0.2);
-        }
-
-        .logo {
-            font-size: 28px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #ff006e, #00d4ff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            animation: glow 2s ease-in-out infinite;
-        }
-
-        @keyframes glow {
-            0%, 100% { text-shadow: 0 0 5px rgba(255, 0, 110, 0.3); }
-            50% { text-shadow: 0 0 20px rgba(255, 0, 110, 0.6); }
-        }
-
-        .user-info {
-            padding: 20px;
-            background: rgba(255, 0, 100, 0.1);
-            margin: 15px;
-            border-radius: 12px;
-            text-align: center;
-            border: 1px solid rgba(255, 0, 100, 0.2);
-        }
-
-        .user-avatar {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #ff006e, #00d4ff);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 10px;
-            font-size: 24px;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        .nav-item {
-            padding: 14px 20px;
-            margin: 5px 15px;
-            border-radius: 12px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            transition: all 0.2s;
-            min-height: 52px;
-        }
-
-        .nav-item:active {
-            transform: scale(0.97);
-            background: rgba(255, 0, 100, 0.2);
-        }
-
-        .nav-item.active {
-            background: linear-gradient(90deg, rgba(255, 0, 100, 0.2), transparent);
-            border-left: 3px solid #ff006e;
-        }
-
-        .nav-item i {
-            width: 24px;
-            color: #ff006e;
-            font-size: 18px;
-        }
-
-        /* Main Content */
-        .main-content {
-            margin-left: 280px;
-            padding: 20px;
-            transition: 0.3s;
-            margin-top: 50px;
-            margin-bottom: 50px;
-        }
-
-        .main-content.expanded {
-            margin-left: 0;
-        }
-
-        /* Stats Cards */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 20px;
-            border: 1px solid rgba(255, 0, 100, 0.2);
-            transition: all 0.2s;
-            cursor: pointer;
-            min-height: 120px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .stat-card:active {
-            transform: scale(0.97);
-            background: rgba(255, 0, 100, 0.1);
-        }
-
-        .stat-card .icon {
-            font-size: 32px;
-            color: #ff006e;
-            margin-bottom: 10px;
-        }
-
-        .stat-card .value {
-            font-size: 32px;
-            font-weight: 700;
-            background: linear-gradient(135deg, #fff, #ff006e);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .stat-card .label {
-            font-size: 12px;
-            color: #888;
-            margin-top: 5px;
-        }
-
-        /* Balance Card */
-        .balance-card {
-            background: linear-gradient(135deg, rgba(255, 0, 100, 0.2), rgba(0, 212, 255, 0.2));
-            border-radius: 20px;
-            padding: 25px;
-            margin-bottom: 30px;
-            border: 1px solid rgba(255, 0, 100, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .balance-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 0, 110, 0.1) 0%, transparent 70%);
-            animation: rotate 10s linear infinite;
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .balance-card .amount {
-            font-size: 48px;
-            font-weight: 700;
-            color: #ff006e;
-        }
-
-        /* Cards */
-        .card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(255, 0, 100, 0.2);
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        /* Buttons */
-        .btn {
-            padding: 12px 24px;
-            border-radius: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: none;
-            color: white;
-            font-size: 14px;
-            min-height: 48px;
-        }
-
-        .btn:active {
-            transform: scale(0.96);
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #ff006e, #d4005a);
-        }
-
-        .btn-danger {
-            background: linear-gradient(135deg, #ff3333, #cc0000);
-        }
-
-        .btn-success {
-            background: linear-gradient(135deg, #00ff88, #00cc66);
-        }
-
-        .btn-sm {
-            padding: 8px 16px;
-            min-height: 40px;
-            font-size: 12px;
-        }
-
-        /* Tables */
-        .table-container {
-            overflow-x: auto;
-            border-radius: 12px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 600px;
-        }
-
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        th {
-            color: #ff006e;
-            font-weight: 600;
-        }
-
-        /* Forms */
-        input, select, textarea {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255, 0, 100, 0.3);
-            border-radius: 12px;
-            color: white;
-            font-size: 14px;
-        }
-
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: #ff006e;
-            box-shadow: 0 0 10px rgba(255, 0, 110, 0.3);
-        }
-
-        /* Login Panel */
-        .login-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(20px);
-            z-index: 2000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .login-box {
-            background: rgba(20, 20, 40, 0.95);
-            border-radius: 24px;
-            padding: 40px;
-            width: 90%;
-            max-width: 400px;
-            border: 1px solid rgba(255, 0, 100, 0.3);
-            text-align: center;
-        }
-
-        .login-box h1 {
-            margin-bottom: 30px;
-            background: linear-gradient(135deg, #ff006e, #00d4ff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 1500;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background: #1a1a2e;
-            border-radius: 24px;
-            padding: 30px;
-            width: 90%;
-            max-width: 500px;
-            border: 1px solid rgba(255, 0, 100, 0.3);
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        /* Menu Toggle */
-        .menu-toggle {
-            position: fixed;
-            left: 20px;
-            top: 20px;
-            width: 48px;
-            height: 48px;
-            background: rgba(0, 0, 0, 0.8);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 101;
-            border: 1px solid rgba(255, 0, 100, 0.3);
-        }
-
-        .menu-toggle:active {
-            transform: scale(0.95);
-        }
-
-        /* Toast */
-        .toast {
-            position: fixed;
-            bottom: 80px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.9);
-            padding: 12px 24px;
-            border-radius: 50px;
-            border-left: 3px solid #ff006e;
-            z-index: 2000;
-            font-size: 14px;
-            white-space: nowrap;
-        }
-
-        /* Spinner */
-        .spinner {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: #ff006e;
-            animation: spin 0.8s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Badges */
-        .badge {
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 600;
-            display: inline-block;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); font-family: 'Inter', sans-serif; min-height: 100vh; color: #fff; overflow-x: hidden; }
+        .bg-animation { position: fixed; width: 100%; height: 100%; top: 0; left: 0; z-index: -1; overflow: hidden; }
+        .bg-animation .circle { position: absolute; border-radius: 50%; background: rgba(255,0,100,0.1); animation: float 20s infinite; }
+        @keyframes float { 0%,100% { transform: translate(0,0) rotate(0deg); } 50% { transform: translate(100px,100px) rotate(180deg); } }
+        .sidebar { position: fixed; left: 0; top: 0; width: 280px; height: 100%; background: rgba(10,10,20,0.95); backdrop-filter: blur(20px); border-right: 1px solid rgba(255,0,100,0.2); transition: all 0.3s; z-index: 100; overflow-y: auto; }
+        .sidebar.collapsed { left: -280px; }
+        .sidebar-header { padding: 30px 20px; text-align: center; border-bottom: 1px solid rgba(255,0,100,0.2); }
+        .logo { font-size: 28px; font-weight: 800; background: linear-gradient(135deg, #ff006e, #00d4ff); -webkit-background-clip: text; background-clip: text; color: transparent; animation: glow 2s ease-in-out infinite; }
+        @keyframes glow { 0%,100% { text-shadow: 0 0 5px rgba(255,0,110,0.3); } 50% { text-shadow: 0 0 20px rgba(255,0,110,0.6); } }
+        .user-info { padding: 20px; background: rgba(255,0,100,0.1); margin: 15px; border-radius: 12px; text-align: center; border: 1px solid rgba(255,0,100,0.2); }
+        .user-avatar { width: 60px; height: 60px; background: linear-gradient(135deg, #ff006e, #00d4ff); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; font-size: 24px; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        .nav-item { padding: 14px 20px; margin: 5px 15px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: all 0.2s; min-height: 52px; }
+        .nav-item:active { transform: scale(0.97); background: rgba(255,0,100,0.2); }
+        .nav-item.active { background: linear-gradient(90deg, rgba(255,0,100,0.2), transparent); border-left: 3px solid #ff006e; }
+        .nav-item i { width: 24px; color: #ff006e; font-size: 18px; }
+        .main-content { margin-left: 280px; padding: 20px; transition: 0.3s; margin-top: 50px; margin-bottom: 50px; }
+        .main-content.expanded { margin-left: 0; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .stat-card { background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border-radius: 20px; padding: 20px; border: 1px solid rgba(255,0,100,0.2); transition: all 0.2s; cursor: pointer; min-height: 120px; display: flex; flex-direction: column; justify-content: center; text-align: center; }
+        .stat-card:active { transform: scale(0.97); background: rgba(255,0,100,0.1); }
+        .stat-card .icon { font-size: 32px; color: #ff006e; margin-bottom: 10px; }
+        .stat-card .value { font-size: 32px; font-weight: 700; background: linear-gradient(135deg, #fff, #ff006e); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .balance-card { background: linear-gradient(135deg, rgba(255,0,100,0.2), rgba(0,212,255,0.2)); border-radius: 20px; padding: 25px; margin-bottom: 30px; text-align: center; border: 1px solid rgba(255,0,100,0.3); position: relative; overflow: hidden; }
+        .balance-card .amount { font-size: 48px; font-weight: 700; color: #ff006e; }
+        .card { background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); border-radius: 20px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(255,0,100,0.2); }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); flex-wrap: wrap; gap: 10px; }
+        .btn { padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; border: none; color: white; font-size: 14px; min-height: 48px; }
+        .btn:active { transform: scale(0.96); }
+        .btn-primary { background: linear-gradient(135deg, #ff006e, #d4005a); }
+        .btn-danger { background: linear-gradient(135deg, #ff3333, #cc0000); }
+        .btn-success { background: linear-gradient(135deg, #00ff88, #00cc66); }
+        .btn-sm { padding: 8px 16px; min-height: 40px; font-size: 12px; }
+        .table-container { overflow-x: auto; border-radius: 12px; }
+        table { width: 100%; border-collapse: collapse; min-width: 600px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        th { color: #ff006e; font-weight: 600; }
+        input, select, textarea { width: 100%; padding: 12px; margin: 10px 0; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,0,100,0.3); border-radius: 12px; color: white; font-size: 14px; }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: #ff006e; box-shadow: 0 0 10px rgba(255,0,110,0.3); }
+        .login-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); backdrop-filter: blur(20px); z-index: 2000; display: flex; justify-content: center; align-items: center; }
+        .login-box { background: rgba(20,20,40,0.95); border-radius: 24px; padding: 40px; width: 90%; max-width: 400px; border: 1px solid rgba(255,0,100,0.3); text-align: center; }
+        .login-box h1 { margin-bottom: 30px; background: linear-gradient(135deg, #ff006e, #00d4ff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1500; justify-content: center; align-items: center; }
+        .modal-content { background: #1a1a2e; border-radius: 24px; padding: 30px; width: 90%; max-width: 500px; border: 1px solid rgba(255,0,100,0.3); max-height: 90vh; overflow-y: auto; }
+        .menu-toggle { position: fixed; left: 20px; top: 20px; width: 48px; height: 48px; background: rgba(0,0,0,0.8); border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 101; border: 1px solid rgba(255,0,100,0.3); }
+        .menu-toggle:active { transform: scale(0.95); }
+        .toast { position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.9); padding: 12px 24px; border-radius: 50px; border-left: 3px solid #ff006e; z-index: 2000; font-size: 14px; white-space: nowrap; }
+        .spinner { display: inline-block; width: 20px; height: 20px; border: 2px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: #ff006e; animation: spin 0.8s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .badge { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; display: inline-block; }
         .badge-active { background: #00ff88; color: #000; }
         .badge-expired { background: #ff3333; color: #fff; }
         .badge-vip { background: linear-gradient(135deg, #ff006e, #ff8800); }
         .badge-banned { background: #333; color: #ff6666; }
-
-        /* Maintenance & Update Banners */
-        .maintenance-banner {
-            background: linear-gradient(135deg, #ff3333, #cc0000);
-            color: white;
-            text-align: center;
-            padding: 12px;
-            font-size: 14px;
-            font-weight: 600;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            display: none;
-        }
-
-        .update-banner {
-            background: linear-gradient(135deg, #00ff88, #00cc66);
-            color: #000;
-            text-align: center;
-            padding: 12px;
-            font-size: 14px;
-            font-weight: 600;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            display: none;
-            cursor: pointer;
-        }
-
-        /* Toggle Switch */
-        .setting-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .toggle-switch {
-            position: relative;
-            width: 52px;
-            height: 28px;
-            background: #333;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .toggle-switch.active {
-            background: #ff006e;
-        }
-
-        .toggle-switch::before {
-            content: '';
-            position: absolute;
-            width: 24px;
-            height: 24px;
-            background: white;
-            border-radius: 50%;
-            top: 2px;
-            left: 3px;
-            transition: 0.2s;
-        }
-
-        .toggle-switch.active::before {
-            left: 25px;
-        }
-
-        /* Status Colors */
-        .status-online { color: #00ff88; }
-        .status-offline { color: #888; }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .sidebar { left: -280px; }
-            .main-content { margin-left: 0; margin-top: 70px; margin-bottom: 70px; }
-            .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-            .stat-card .value { font-size: 24px; }
-            .balance-card .amount { font-size: 36px; }
-            .toast { white-space: normal; text-align: center; max-width: 90%; }
-            .card-header { flex-direction: column; align-items: flex-start; }
-        }
-
-        @media (max-width: 480px) {
-            .stats-grid { gap: 8px; }
-            .stat-card { padding: 15px; }
-            .login-box { padding: 25px; }
-            .modal-content { padding: 20px; }
-        }
+        .setting-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); flex-wrap: wrap; gap: 10px; }
+        .toggle-switch { position: relative; width: 52px; height: 28px; background: #333; border-radius: 30px; cursor: pointer; transition: 0.2s; }
+        .toggle-switch.active { background: #ff006e; }
+        .toggle-switch::before { content: ''; position: absolute; width: 24px; height: 24px; background: white; border-radius: 50%; top: 2px; left: 3px; transition: 0.2s; }
+        .toggle-switch.active::before { left: 25px; }
+        @media (max-width: 768px) { .sidebar { left: -280px; } .main-content { margin-left: 0; margin-top: 70px; margin-bottom: 70px; } .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } .stat-card .value { font-size: 24px; } .balance-card .amount { font-size: 36px; } .toast { white-space: normal; text-align: center; max-width: 90%; } }
     </style>
 </head>
 <body>
-    <!-- Animated Background -->
     <div class="bg-animation">
         <div class="circle" style="width:300px;height:300px;top:-100px;right:-100px;"></div>
         <div class="circle" style="width:200px;height:200px;bottom:-50px;left:-50px;animation-delay:-5s;"></div>
         <div class="circle" style="width:150px;height:150px;top:50%;left:50%;animation-delay:-10s;"></div>
     </div>
 
-    <!-- Banners -->
-    <div id="maintenanceBanner" class="maintenance-banner"><i class="fas fa-tools"></i> MAINTENANCE MODE ACTIVE</div>
-    <div id="updateBanner" class="update-banner" onclick="checkUpdate()"><i class="fas fa-download"></i> New update available! Click to download.</div>
-
     <!-- Login Panel -->
     <div id="loginPanel" class="login-container">
         <div class="login-box">
-            <h1>KURU PANEL v11.0</h1>
+            <h1>KURU PANEL v12.0</h1>
             <p style="color:#888;margin-bottom:20px;">Login to continue</p>
             <input type="text" id="loginUsername" placeholder="Username" autocomplete="off" value="owner">
-            <input type="password" id="loginPassword" placeholder="Password" value="admin123">
+            <input type="password" id="loginPassword" placeholder="Password" value="sagarxmodder">
             <button class="btn btn-primary" onclick="doLogin()" id="loginBtn" style="width:100%">LOGIN</button>
             <p id="loginError" style="color:#ff3333;margin-top:15px;"></p>
         </div>
@@ -594,18 +95,8 @@
         <div class="menu-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></div>
 
         <div class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <div class="logo">KURU<span style="color:#ff006e">PANEL</span></div>
-                <p style="font-size:10px;color:#666;">VANTHEX MOD MENU</p>
-                <p style="font-size:9px;color:#ff006e;">v11.0</p>
-            </div>
-
-            <div class="user-info">
-                <div class="user-avatar"><i class="fas fa-user"></i></div>
-                <div id="userName">Loading...</div>
-                <div id="userRole" style="font-size:10px;color:#ff006e;"></div>
-            </div>
-
+            <div class="sidebar-header"><div class="logo">KURU<span style="color:#ff006e">PANEL</span></div><p style="font-size:10px;color:#666;">VANTHEX MOD MENU</p><p style="font-size:9px;color:#ff006e;">v12.0</p></div>
+            <div class="user-info"><div class="user-avatar"><i class="fas fa-user"></i></div><div id="userName">Loading...</div><div id="userRole" style="font-size:10px;color:#ff006e;"></div><div id="userBalance" style="font-size:12px;margin-top:5px;">Balance: 0</div></div>
             <div class="nav-item active" onclick="switchPage('dashboard')"><i class="fas fa-tachometer-alt"></i> DASHBOARD</div>
             <div class="nav-item" onclick="switchPage('users')"><i class="fas fa-users"></i> USERS</div>
             <div id="resellerNav" class="nav-item" style="display:none;" onclick="switchPage('resellers')"><i class="fas fa-store"></i> RESELLERS</div>
@@ -613,12 +104,11 @@
             <div class="nav-item" onclick="switchPage('online')"><i class="fas fa-globe"></i> ONLINE USERS</div>
             <div class="nav-item" onclick="switchPage('settings')"><i class="fas fa-cog"></i> SETTINGS</div>
             <div class="nav-item" onclick="switchPage('logs')"><i class="fas fa-history"></i> LOGS</div>
-            <div class="nav-item" onclick="switchPage('updates')"><i class="fas fa-cloud-download-alt"></i> UPDATES</div>
             <div class="nav-item" onclick="logout()"><i class="fas fa-sign-out-alt"></i> LOGOUT</div>
         </div>
 
         <div class="main-content" id="mainContent">
-            <!-- Dashboard Page -->
+            <!-- Dashboard -->
             <div id="dashboardPage" class="page-content">
                 <div class="stats-grid">
                     <div class="stat-card" onclick="switchPage('users')"><div class="icon"><i class="fas fa-users"></i></div><div class="value" id="totalUsers">0</div><div class="label">TOTAL USERS</div></div>
@@ -627,7 +117,7 @@
                     <div class="stat-card" onclick="switchPage('online')"><div class="icon"><i class="fas fa-chart-line"></i></div><div class="value" id="activeUsers">0</div><div class="label">ACTIVE TODAY</div></div>
                 </div>
                 <div class="balance-card" id="balanceCard" style="display:none;"><h3>MY BALANCE (CREDITS)</h3><div class="amount" id="myBalance">0</div><p style="font-size:12px;color:#888;">⚡ 1 Credit = 1 Key = 30 Days</p></div>
-                <div class="card"><div class="card-header"><h3><i class="fas fa-history"></i> RECENT LOGINS</h3><button class="btn btn-primary btn-sm" onclick="loadRecentLogins()"><i class="fas fa-sync-alt"></i> Refresh</button></div><div class="table-container"><table id="recentLoginsTable"><thead><tr><th>User</th><th>IP</th><th>Device</th><th>Time</th></tr></thead><tbody><tr><td colspan="4">Loading...</td></tr></tbody></table></div></div>
+                <div class="card"><div class="card-header"><h3><i class="fas fa-history"></i> RECENT LOGINS</h3><button class="btn btn-primary btn-sm" onclick="loadRecentLogins()"><i class="fas fa-sync-alt"></i> Refresh</button></div><div class="table-container"><table id="recentLoginsTable"><thead><tr><th>User</th><th>IP</th><th>Device</th><th>Time</th></tr></thead><tbody><tr><td colspan="4">No logins found</tr></tbody>}</div></div>
             </div>
 
             <!-- Users Page -->
@@ -636,7 +126,7 @@
                     <button class="btn btn-primary" onclick="openUserModal()"><i class="fas fa-plus"></i> ADD USER</button>
                     <button class="btn btn-primary" onclick="loadUsers()"><i class="fas fa-sync-alt"></i> Refresh</button>
                 </div>
-                <div class="card"><div class="table-container"><table id="usersTable"><thead><tr><th>ID</th><th>Username</th><th>Key</th><th>VIP</th><th>Expiry</th><th>Status</th><th>Last Login</th><th>Reseller</th><th>Actions</th></tr></thead><tbody><tr><td colspan="9">Loading...</td></tr></tbody></table></div></div>
+                <div class="card"><div class="table-container"><table id="usersTable"><thead><tr><th>ID</th><th>Username</th><th>Key</th><th>VIP</th><th>Expiry</th><th>Status</th><th>Reseller</th><th>Actions</th></tr></thead><tbody></tbody>}</div></div>
             </div>
 
             <!-- Resellers Page -->
@@ -645,7 +135,7 @@
                     <button class="btn btn-primary" onclick="openResellerModal()"><i class="fas fa-plus"></i> ADD RESELLER</button>
                     <button class="btn btn-primary" onclick="loadResellers()"><i class="fas fa-sync-alt"></i> Refresh</button>
                 </div>
-                <div class="card"><div class="table-container"><table id="resellersTable"><thead><tr><th>ID</th><th>Username</th><th>Balance</th><th>Total Sales</th><th>Commission</th><th>Created</th><th>Actions</th></tr></thead><tbody><tr><td colspan="7">Loading...</td></tr></tbody></table></div></div>
+                <div class="card"><div class="table-container"><table id="resellersTable"><thead><tr><th>ID</th><th>Username</th><th>Balance</th><th>Total Sales</th><th>Commission</th><th>Actions</th></tr></thead><tbody></tbody>}</div></div>
             </div>
 
             <!-- Keys Page -->
@@ -654,28 +144,23 @@
                     <button class="btn btn-primary" onclick="generateKey()"><i class="fas fa-plus"></i> GENERATE KEY</button>
                     <button class="btn btn-primary" onclick="loadKeys()"><i class="fas fa-sync-alt"></i> Refresh</button>
                 </div>
-                <div class="card"><div class="table-container"><table id="keysTable"><thead><tr><th>Key</th><th>Status</th><th>Used By</th><th>Created By</th><th>Expiry</th><th>Actions</th></tr></thead><tbody><tr><td colspan="6">Loading...</td></tr></tbody></table></div></div>
+                <div class="card"><div class="table-container"><table id="keysTable"><thead><tr><th>Key</th><th>Status</th><th>Used By</th><th>Created By</th><th>Expiry</th><th>Actions</th></tr></thead><tbody></tbody>}</div></div>
             </div>
 
             <!-- Online Users Page -->
             <div id="onlinePage" class="page-content" style="display:none;">
                 <div style="margin-bottom:20px;"><button class="btn btn-primary" onclick="loadOnlineUsers()"><i class="fas fa-sync-alt"></i> Refresh</button></div>
-                <div class="card"><div class="table-container"><table id="onlineTable"><thead><tr><th>User</th><th>IP</th><th>Device</th><th>Last Active</th><th>Status</th></tr></thead><tbody><tr><td colspan="5">Loading...</td></tr></tbody></table></div></div>
+                <div class="card"><div class="table-container"><table id="onlineTable"><thead><tr><th>User</th><th>IP</th><th>Device</th><th>Last Active</th><th>Status</th></tr></thead><tbody></tbody>}</div></div>
             </div>
 
             <!-- Settings Page -->
             <div id="settingsPage" class="page-content" style="display:none;">
                 <div class="card"><div class="card-header"><h3><i class="fas fa-lock"></i> CHANGE PASSWORD</h3></div><input type="password" id="oldPassword" placeholder="Current Password"><input type="password" id="newPassword" placeholder="New Password"><input type="password" id="confirmPassword" placeholder="Confirm Password"><button class="btn btn-primary" onclick="changePassword()">UPDATE PASSWORD</button></div>
-                <div class="card"><div class="card-header"><h3><i class="fas fa-tools"></i> MAINTENANCE MODE</h3></div><div class="setting-row"><span>Enable Maintenance Mode</span><div id="maintenanceToggle" class="toggle-switch" onclick="toggleMaintenance()"></div></div><p style="font-size:12px;color:#888;">When enabled, only admin can access</p><input type="text" id="maintenanceMessage" placeholder="Maintenance Message"></div>
-                <div class="card"><div class="card-header"><h3><i class="fas fa-code"></i> API SETTINGS</h3></div><p><strong>API URL:</strong> <code id="apiUrl"></code></p><p><strong>API Key:</strong> <code id="apiKey"></code></p><button class="btn btn-primary btn-sm" onclick="regenerateApiKey()">Regenerate API Key</button></div>
                 <div class="card"><div class="card-header"><h3><i class="fas fa-palette"></i> CUSTOMIZATION</h3></div><input type="text" id="panelLink" placeholder="Panel Link"><textarea id="panelDesc" rows="2" placeholder="Panel Description"></textarea><button class="btn btn-primary btn-sm" onclick="saveCustomization()">Save Customization</button></div>
             </div>
 
             <!-- Logs Page -->
-            <div id="logsPage" class="page-content" style="display:none;"><div style="margin-bottom:20px;"><button class="btn btn-primary" onclick="loadLogs()">Refresh</button></div><div class="card"><div class="table-container"><table id="logsTable"><thead><tr><th>Time</th><th>User</th><th>Action</th><th>IP</th></tr></thead><tbody><tr><td colspan="4">Loading...</td></tr></tbody></table></div></div></div>
-
-            <!-- Updates Page -->
-            <div id="updatesPage" class="page-content" style="display:none;"><div class="card"><div class="card-header"><h3>CHECK FOR UPDATES</h3></div><div id="updateInfo"><p>Current Version: <strong>v11.0</strong></p><p>Latest Version: <span id="latestVersion">Checking...</span></p><div id="changelog"></div><button class="btn btn-primary" onclick="checkUpdate()" id="updateCheckBtn">Check for Updates</button><button class="btn btn-success" onclick="downloadUpdate()" id="downloadUpdateBtn" style="display:none;">Download Update</button></div></div></div>
+            <div id="logsPage" class="page-content" style="display:none;"><div style="margin-bottom:20px;"><button class="btn btn-primary" onclick="loadLogs()">Refresh</button></div><div class="card"><div class="table-container"><table id="logsTable"><thead><tr><th>Time</th><th>User</th><th>Action</th><th>IP</th></tr></thead><tbody></tbody>}</div></div></div>
         </div>
     </div>
 
@@ -706,296 +191,506 @@
     </div>
 
     <script>
-        let currentUser = { id: null, username: null, role: null, balance: 0 };
+        // ========== DATA STORAGE ==========
+        let currentUser = null;
         
-        function showToast(m, e) { let t = document.createElement('div'); t.className = 'toast'; t.style.background = e ? 'rgba(255,51,51,0.9)' : 'rgba(0,0,0,0.9)'; t.innerHTML = `<i class="fas ${e ? 'fa-exclamation-triangle' : 'fa-check-circle'}"></i> ${m}`; document.body.appendChild(t); setTimeout(() => t.remove(), 3000); }
+        // Initialize data from localStorage
+        let users = JSON.parse(localStorage.getItem('kuru_users')) || [
+            { id: 1, username: 'testuser1', key: 'KEY123', vip: 1, expiry: '2025-12-31', status: 'active', reseller_id: 0 },
+            { id: 2, username: 'testuser2', key: 'KEY456', vip: 0, expiry: '2024-12-31', status: 'active', reseller_id: 0 }
+        ];
         
+        let resellers = JSON.parse(localStorage.getItem('kuru_resellers')) || [];
+        
+        let keys = JSON.parse(localStorage.getItem('kuru_keys')) || [
+            { code: 'FREE123', status: 'unused', used_by: null, created_by: 'owner', expiry: '2025-12-31' }
+        ];
+        
+        let logs = JSON.parse(localStorage.getItem('kuru_logs')) || [];
+        let settings = JSON.parse(localStorage.getItem('kuru_settings')) || { panelLink: '', panelDesc: '' };
+        
+        let nextUserId = users.length + 1;
+        let nextResellerId = resellers.length + 1;
+        let nextKeyId = keys.length + 1;
+        
+        function saveData() {
+            localStorage.setItem('kuru_users', JSON.stringify(users));
+            localStorage.setItem('kuru_resellers', JSON.stringify(resellers));
+            localStorage.setItem('kuru_keys', JSON.stringify(keys));
+            localStorage.setItem('kuru_logs', JSON.stringify(logs));
+            localStorage.setItem('kuru_settings', JSON.stringify(settings));
+        }
+        
+        function addLog(user, action, ip = '127.0.0.1') {
+            logs.unshift({ time: new Date().toLocaleString(), user: user, action: action, ip: ip });
+            if (logs.length > 100) logs.pop();
+            saveData();
+        }
+        
+        function showToast(msg, isError = false) {
+            let toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.style.background = isError ? 'rgba(255,51,51,0.9)' : 'rgba(0,0,0,0.9)';
+            toast.innerHTML = `<i class="fas ${isError ? 'fa-exclamation-triangle' : 'fa-check-circle'}"></i> ${msg}`;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+        
+        // ========== LOGIN ==========
+        function doLogin() {
+            let username = document.getElementById('loginUsername').value;
+            let password = document.getElementById('loginPassword').value;
+            let btn = document.getElementById('loginBtn');
+            
+            if (username === 'owner' && password === 'sagarxmodder') {
+                currentUser = { id: 0, username: 'owner', role: 'owner', balance: 999999 };
+                document.getElementById('loginPanel').style.display = 'none';
+                document.getElementById('mainApp').style.display = 'block';
+                document.getElementById('userName').innerText = 'Owner';
+                document.getElementById('userRole').innerText = 'OWNER';
+                document.getElementById('userBalance').innerText = '999999 Credits';
+                document.getElementById('resellerNav').style.display = 'flex';
+                addLog('owner', 'login');
+                loadDashboard();
+                showToast('Login successful!');
+            } else {
+                // Check reseller login
+                let reseller = resellers.find(r => r.username === username && r.password === password);
+                if (reseller) {
+                    currentUser = { id: reseller.id, username: reseller.username, role: 'reseller', balance: reseller.balance };
+                    document.getElementById('loginPanel').style.display = 'none';
+                    document.getElementById('mainApp').style.display = 'block';
+                    document.getElementById('userName').innerText = reseller.username;
+                    document.getElementById('userRole').innerText = 'RESELLER';
+                    document.getElementById('userBalance').innerText = reseller.balance + ' Credits';
+                    document.getElementById('balanceCard').style.display = 'block';
+                    document.getElementById('myBalance').innerText = reseller.balance;
+                    addLog(reseller.username, 'login');
+                    loadDashboard();
+                    showToast('Login successful!');
+                } else {
+                    document.getElementById('loginError').innerText = 'Invalid credentials!';
+                    showToast('Invalid credentials!', true);
+                }
+            }
+        }
+        
+        // ========== PAGE SWITCHING ==========
         function switchPage(page) {
             document.querySelectorAll('.page-content').forEach(p => p.style.display = 'none');
-            let pageEl = document.getElementById(page + 'Page');
-            if (pageEl) pageEl.style.display = 'block';
+            document.getElementById(page + 'Page').style.display = 'block';
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             event.target.closest('.nav-item').classList.add('active');
+            
             if (page === 'dashboard') loadDashboard();
             else if (page === 'users') loadUsers();
             else if (page === 'resellers') loadResellers();
             else if (page === 'keys') loadKeys();
             else if (page === 'online') loadOnlineUsers();
             else if (page === 'logs') loadLogs();
-            else if (page === 'settings') { loadSettings(); loadMaintenanceStatus(); loadCustomization(); }
-            else if (page === 'updates') checkUpdate();
+            else if (page === 'settings') loadSettings();
         }
         
-        async function doLogin() {
-            let u = document.getElementById('loginUsername').value, p = document.getElementById('loginPassword').value, btn = document.getElementById('loginBtn');
-            if (!u || !p) { showToast('Enter username and password!', true); return; }
-            btn.innerHTML = '<div class="spinner"></div> LOGGING...'; btn.disabled = true;
-            try {
-                let res = await fetch(`api.php?action=login&username=${encodeURIComponent(u)}&password=${encodeURIComponent(p)}&t=${Date.now()}`);
-                let d = await res.json();
-                if (d.success) {
-                    currentUser = d.user;
-                    document.getElementById('loginPanel').style.display = 'none';
-                    document.getElementById('mainApp').style.display = 'block';
-                    document.getElementById('userName').innerText = currentUser.username;
-                    document.getElementById('userRole').innerText = currentUser.role.toUpperCase();
-                    if (currentUser.role === 'owner') document.getElementById('resellerNav').style.display = 'flex';
-                    loadDashboard();
-                    showToast('Login successful!');
-                } else { document.getElementById('loginError').innerText = d.error || 'Login failed!'; showToast(d.error || 'Login failed!', true); }
-            } catch(e) { showToast('Connection error: ' + e.message, true); document.getElementById('loginError').innerText = 'Connection error: ' + e.message; }
-            finally { btn.innerHTML = 'LOGIN'; btn.disabled = false; }
-        }
-        
-        async function loadDashboard() {
-            try {
-                let res = await fetch(`api.php?action=getStats&role=${currentUser.role}&id=${currentUser.id}&t=${Date.now()}`);
-                let d = await res.json();
-                document.getElementById('totalUsers').innerText = d.totalUsers || 0;
-                document.getElementById('vipUsers').innerText = d.vipUsers || 0;
-                document.getElementById('totalKeys').innerText = d.totalKeys || 0;
-                document.getElementById('activeUsers').innerText = d.activeUsers || 0;
-                if (currentUser.role === 'reseller') { document.getElementById('balanceCard').style.display = 'block'; document.getElementById('myBalance').innerText = currentUser.balance; }
-                loadRecentLogins();
-            } catch(e) { showToast('Failed to load dashboard!', true); }
-        }
-        
-        async function loadRecentLogins() {
-            try {
-                let res = await fetch(`api.php?action=getRecentLogins&role=${currentUser.role}&id=${currentUser.id}&t=${Date.now()}`);
-                let logs = await res.json();
-                let html = ''; logs.forEach(l => { html += `<tr><td>${l.username||'-'}</td><td>${l.ip||'-'}</td><td>${l.device||'-'}</td><td>${l.time||'-'}</td></tr>`; });
-                document.querySelector('#recentLoginsTable tbody').innerHTML = html || '<tr><td colspan="4">No logins found</td></tr>';
-            } catch(e) { document.querySelector('#recentLoginsTable tbody').innerHTML = '<tr><td colspan="4">Failed to load</td></tr>'; }
-        }
-        
-        async function loadUsers() {
-            try {
-                let res = await fetch(`api.php?action=getUsers&role=${currentUser.role}&id=${currentUser.id}&t=${Date.now()}`);
-                let users = await res.json();
-                let html = '';
-                users.forEach(u => {
-                    let statusBadge = u.status === 'active' ? '<span class="badge badge-active">Active</span>' : (u.status === 'banned' ? '<span class="badge badge-banned">Banned</span>' : '<span class="badge badge-expired">Expired</span>');
-                    html += `<tr>
-                        <td>${u.id}</td>
-                        <td>${u.username}</td>
-                        <td><code>${u.key_code||'-'}</code></td>
-                        <td>${u.vip==1?'<span class="badge badge-vip">VIP</span>':'Regular'}</td>
-                        <td>${u.expiry||'-'}</td>
-                        <td>${statusBadge}</td>
-                        <td>${u.last_login||'-'}</td>
-                        <td>${u.reseller||'Owner'}</td>
-                        <td><button class="btn btn-primary btn-sm" onclick="editUser(${u.id})">Edit</button> <button class="btn btn-danger btn-sm" onclick="deleteUser(${u.id})">Delete</button></td>
-                    </tr>`;
-                });
-                document.querySelector('#usersTable tbody').innerHTML = html || '<tr><td colspan="9">No users found</td></tr>';
-            } catch(e) { document.querySelector('#usersTable tbody').innerHTML = '<tr><td colspan="9">Failed to load</td></tr>'; }
-        }
-        
-        async function loadResellers() {
-            try {
-                let res = await fetch(`api.php?action=getResellers&t=${Date.now()}`);
-                let rs = await res.json();
-                let html = '';
-                rs.forEach(r => { html += `<tr>
-                    <td>${r.id}</td>
-                    <td>${r.username}</td>
-                    <td>${r.balance}</td>
-                    <td>${r.total_sales||0}</td>
-                    <td>${r.commission}%</td>
-                    <td>${r.created_at}</td>
-                    <td><button class="btn btn-primary btn-sm" onclick="addCredits(${r.id})">Add Credits</button> <button class="btn btn-danger btn-sm" onclick="deleteReseller(${r.id})">Delete</button></td></tr>`;
-                });
-                document.querySelector('#resellersTable tbody').innerHTML = html || '<tr><td colspan="7">No resellers found</td></tr>';
-            } catch(e) { document.querySelector('#resellersTable tbody').innerHTML = '<tr><td colspan="7">Failed to load</td></tr>'; }
-        }
-        
-        async function loadKeys() {
-            try {
-                let res = await fetch(`api.php?action=getKeys&role=${currentUser.role}&id=${currentUser.id}&t=${Date.now()}`);
-                let keys = await res.json();
-                let html = '';
-                keys.forEach(k => { html += `<tr>
-                    <td><code>${k.code}</code></td>
-                    <td><span class="badge ${k.status==='used'?'badge-expired':'badge-active'}">${k.status}</span></td>
-                    <td>${k.used_by||'-'}</td>
-                    <td>${k.created_by||'Owner'}</td>
-                    <td>${k.expiry}</td>
-                    <td><button class="btn btn-danger btn-sm" onclick="deleteKey('${k.code}')">Delete</button></td></tr>`;
-                });
-                document.querySelector('#keysTable tbody').innerHTML = html || '<tr><td colspan="6">No keys found</td></tr>';
-            } catch(e) { document.querySelector('#keysTable tbody').innerHTML = '<tr><td colspan="6">Failed to load</td></tr>'; }
-        }
-        
-        async function loadOnlineUsers() {
-            try {
-                let res = await fetch(`api.php?action=getOnlineUsers&t=${Date.now()}`);
-                let users = await res.json();
-                let html = '';
-                users.forEach(u => { html += `<tr>
-                    <td>${u.username}</td>
-                    <td>${u.ip||'-'}</td>
-                    <td>${u.device||'-'}</td>
-                    <td>${u.last_active||'-'}</td>
-                    <td><span class="status-online">🟢 Online</span></td></tr>`;
-                });
-                document.querySelector('#onlineTable tbody').innerHTML = html || '<tr><td colspan="5">No online users found</td></tr>';
-            } catch(e) { document.querySelector('#onlineTable tbody').innerHTML = '<tr><td colspan="5">Failed to load</td></tr>'; }
-        }
-        
-        async function loadLogs() {
-            try {
-                let res = await fetch(`api.php?action=getLogs&t=${Date.now()}`);
-                let logs = await res.json();
-                let html = ''; logs.forEach(l => { html += `<tr>
-                    <td>${l.time}</td>
-                    <td>${l.user}</td>
-                    <td>${l.action}</td>
-                    <td>${l.ip}</td></tr>`;
-                });
-                document.querySelector('#logsTable tbody').innerHTML = html || '<tr><td colspan="4">No logs found</td></tr>';
-            } catch(e) { document.querySelector('#logsTable tbody').innerHTML = '<tr><td colspan="4">Failed to load</td></tr>'; }
-        }
-        
-        async function loadSettings() {
-            try {
-                let res = await fetch(`api.php?action=getSettings&t=${Date.now()}`);
-                let data = await res.json();
-                document.getElementById('apiUrl').innerText = window.location.origin + '/api.php';
-                document.getElementById('apiKey').innerText = data.api_key || 'Not set';
-            } catch(e) { document.getElementById('apiUrl').innerText = 'Error loading'; }
-        }
-        
-        async function loadMaintenanceStatus() {
-            try {
-                let res = await fetch(`api.php?action=getMaintenance&t=${Date.now()}`);
-                let d = await res.json();
-                let toggle = document.getElementById('maintenanceToggle');
-                if (d.maintenance) { toggle.classList.add('active'); document.getElementById('maintenanceBanner').style.display = 'block'; }
-                else { toggle.classList.remove('active'); document.getElementById('maintenanceBanner').style.display = 'none'; }
-                document.getElementById('maintenanceMessage').value = d.message || '';
-            } catch(e) {}
-        }
-        
-        async function loadCustomization() {
-            try {
-                let res = await fetch(`api.php?action=getCustomization&t=${Date.now()}`);
-                let d = await res.json();
-                document.getElementById('panelLink').value = d.panelLink || window.location.href;
-                document.getElementById('panelDesc').value = d.panelDesc || '';
-            } catch(e) {}
-        }
-        
-        async function toggleMaintenance() {
-            let toggle = document.getElementById('maintenanceToggle');
-            let ns = !toggle.classList.contains('active');
-            let msg = document.getElementById('maintenanceMessage')?.value || '';
-            try {
-                let res = await fetch(`api.php?action=setMaintenance&enable=${ns}&message=${encodeURIComponent(msg)}&t=${Date.now()}`);
-                let d = await res.json();
-                if (d.success) {
-                    if (ns) { toggle.classList.add('active'); document.getElementById('maintenanceBanner').style.display = 'block'; showToast('Maintenance mode enabled'); }
-                    else { toggle.classList.remove('active'); document.getElementById('maintenanceBanner').style.display = 'none'; showToast('Maintenance mode disabled'); }
-                }
-            } catch(e) { showToast('Failed to toggle maintenance', true); }
-        }
-        
-        async function generateKey() {
-            let days = prompt('Enter key validity (days):', '30');
-            if (days && !isNaN(days)) {
-                try {
-                    let res = await fetch(`api.php?action=generateKey&days=${days}&role=${currentUser.role}&id=${currentUser.id}&t=${Date.now()}`);
-                    let d = await res.json();
-                    if (d.success) { showToast('Key generated: ' + d.key); loadKeys(); if (currentUser.role === 'reseller') loadDashboard(); }
-                    else showToast(d.error || 'Failed!', true);
-                } catch(e) { showToast('Failed!', true); }
+        // ========== DASHBOARD ==========
+        function loadDashboard() {
+            document.getElementById('totalUsers').innerText = users.length;
+            document.getElementById('vipUsers').innerText = users.filter(u => u.vip).length;
+            document.getElementById('totalKeys').innerText = keys.length;
+            document.getElementById('activeUsers').innerText = users.filter(u => u.status === 'active').length;
+            if (currentUser.role === 'reseller') {
+                document.getElementById('balanceCard').style.display = 'block';
+                document.getElementById('myBalance').innerText = currentUser.balance;
             }
+            loadRecentLogins();
+        }
+        
+        function loadRecentLogins() {
+            let html = '';
+            logs.slice(0, 10).forEach(l => {
+                html += `<tr><td>${l.user}</td><td>${l.ip}</td><td>-</td><td>${l.time}</td></tr>`;
+            });
+            document.querySelector('#recentLoginsTable tbody').innerHTML = html || '<tr><td colspan="4">No logins found</td></tr>';
+        }
+        
+        // ========== USERS ==========
+        function loadUsers() {
+            let html = '';
+            let filteredUsers = currentUser.role === 'owner' ? users : users.filter(u => u.reseller_id === currentUser.id);
+            filteredUsers.forEach(u => {
+                let statusBadge = u.status === 'active' ? '<span class="badge badge-active">Active</span>' : (u.status === 'banned' ? '<span class="badge badge-banned">Banned</span>' : '<span class="badge badge-expired">Expired</span>');
+                html += `<tr>
+                    <td>${u.id}</td>
+                    <td>${u.username}</td>
+                    <td><code>${u.key || '-'}</code></td>
+                    <td>${u.vip ? '<span class="badge badge-vip">VIP</span>' : 'Regular'}</td>
+                    <td>${u.expiry || '-'}</td>
+                    <td>${statusBadge}</td>
+                    <td>${currentUser.role === 'owner' ? (u.reseller_id ? resellers.find(r => r.id === u.reseller_id)?.username || 'Owner' : 'Owner') : '-'}</td>
+                    <td><button class="btn btn-primary btn-sm" onclick="editUser(${u.id})">Edit</button> <button class="btn btn-danger btn-sm" onclick="deleteUser(${u.id})">Delete</button></td>
+                </tr>`;
+            });
+            document.querySelector('#usersTable tbody').innerHTML = html || '<tr><td colspan="8">No users found</td></tr>';
+        }
+        
+        function openUserModal() {
+            document.getElementById('userModalTitle').innerText = 'Add User';
+            document.getElementById('editUserId').value = '';
+            document.getElementById('userUsername').value = '';
+            document.getElementById('userKey').value = '';
+            document.getElementById('userVip').value = '0';
+            document.getElementById('userStatus').value = 'active';
+            document.getElementById('userDays').value = '30';
+            document.getElementById('userModal').style.display = 'flex';
         }
         
         function editUser(id) {
-            fetch(`api.php?action=getUser&id=${id}&t=${Date.now()}`).then(r=>r.json()).then(u=>{
+            let user = users.find(u => u.id === id);
+            if (user) {
                 document.getElementById('userModalTitle').innerText = 'Edit User';
-                document.getElementById('editUserId').value = u.id;
-                document.getElementById('userUsername').value = u.username;
-                document.getElementById('userKey').value = u.key_code || '';
-                document.getElementById('userVip').value = u.vip;
-                document.getElementById('userStatus').value = u.status || 'active';
+                document.getElementById('editUserId').value = user.id;
+                document.getElementById('userUsername').value = user.username;
+                document.getElementById('userKey').value = user.key || '';
+                document.getElementById('userVip').value = user.vip;
+                document.getElementById('userStatus').value = user.status;
                 document.getElementById('userDays').value = '';
                 document.getElementById('userModal').style.display = 'flex';
-            });
+            }
         }
         
-        async function saveUser() {
+        function saveUser() {
             let id = document.getElementById('editUserId').value;
-            let data = { username: document.getElementById('userUsername').value, key: document.getElementById('userKey').value, vip: document.getElementById('userVip').value, status: document.getElementById('userStatus').value, days: document.getElementById('userDays').value };
-            if (!data.username) { showToast('Username required!', true); return; }
-            let url = id ? `api.php?action=updateUser&id=${id}&role=${currentUser.role}&rid=${currentUser.id}` : `api.php?action=addUser&role=${currentUser.role}&id=${currentUser.id}`;
-            try {
-                let res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
-                let result = await res.json();
-                if (result.success) { closeModal('userModal'); loadUsers(); if (currentUser.role === 'reseller') loadDashboard(); showToast(id ? 'User updated!' : 'User added!'); }
-                else showToast(result.error || 'Failed!', true);
-            } catch(e) { showToast('Failed!', true); }
+            let userData = {
+                username: document.getElementById('userUsername').value,
+                key: document.getElementById('userKey').value,
+                vip: parseInt(document.getElementById('userVip').value),
+                status: document.getElementById('userStatus').value,
+                days: document.getElementById('userDays').value
+            };
+            
+            if (!userData.username) {
+                showToast('Username required!', true);
+                return;
+            }
+            
+            if (id) {
+                // Update existing user
+                let index = users.findIndex(u => u.id == id);
+                if (index !== -1) {
+                    users[index].username = userData.username;
+                    users[index].key = userData.key;
+                    users[index].vip = userData.vip;
+                    users[index].status = userData.status;
+                    if (userData.days && userData.days > 0) {
+                        let expiry = new Date();
+                        expiry.setDate(expiry.getDate() + parseInt(userData.days));
+                        users[index].expiry = expiry.toISOString().split('T')[0];
+                    }
+                    addLog(currentUser.username, `updated user ${userData.username}`);
+                    showToast('User updated!');
+                }
+            } else {
+                // Add new user
+                let expiry = new Date();
+                expiry.setDate(expiry.getDate() + parseInt(userData.days));
+                let newUser = {
+                    id: nextUserId++,
+                    username: userData.username,
+                    key: userData.key,
+                    vip: userData.vip,
+                    expiry: expiry.toISOString().split('T')[0],
+                    status: userData.status,
+                    reseller_id: currentUser.role === 'reseller' ? currentUser.id : 0
+                };
+                users.push(newUser);
+                
+                if (currentUser.role === 'reseller') {
+                    let resellerIndex = resellers.findIndex(r => r.id === currentUser.id);
+                    if (resellerIndex !== -1) {
+                        resellers[resellerIndex].balance--;
+                        currentUser.balance = resellers[resellerIndex].balance;
+                        document.getElementById('myBalance').innerText = currentUser.balance;
+                        document.getElementById('userBalance').innerText = currentUser.balance + ' Credits';
+                    }
+                }
+                addLog(currentUser.username, `added user ${userData.username}`);
+                showToast('User added!');
+            }
+            saveData();
+            closeModal('userModal');
+            loadUsers();
+            loadDashboard();
         }
         
-        async function saveReseller() {
-            let data = { username: document.getElementById('resellerUsername').value, password: document.getElementById('resellerPassword').value, credits: document.getElementById('resellerCredits').value, commission: document.getElementById('resellerCommission').value };
-            if (!data.username || !data.password) { showToast('Username and password required!', true); return; }
-            try {
-                let res = await fetch(`api.php?action=addReseller`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
-                if (res.ok) { closeModal('resellerModal'); loadResellers(); showToast('Reseller added!'); }
-                else showToast('Failed!', true);
-            } catch(e) { showToast('Failed!', true); }
+        function deleteUser(id) {
+            if (confirm('Delete this user?')) {
+                let user = users.find(u => u.id === id);
+                users = users.filter(u => u.id !== id);
+                addLog(currentUser.username, `deleted user ${user?.username}`);
+                saveData();
+                loadUsers();
+                loadDashboard();
+                showToast('User deleted!');
+            }
         }
         
-        async function addCredits(id) { let c = prompt('Add credits:'); if (c && !isNaN(c)) { try { await fetch(`api.php?action=addCredits&id=${id}&credits=${c}&t=${Date.now()}`); loadResellers(); showToast('Credits added!'); } catch(e) { showToast('Failed!', true); } } }
-        async function deleteUser(id) { if (confirm('Delete this user?')) { try { await fetch(`api.php?action=deleteUser&id=${id}&t=${Date.now()}`); loadUsers(); loadDashboard(); showToast('User deleted!'); } catch(e) { showToast('Failed!', true); } } }
-        async function deleteReseller(id) { if (confirm('Delete this reseller?')) { try { await fetch(`api.php?action=deleteReseller&id=${id}&t=${Date.now()}`); loadResellers(); showToast('Reseller deleted!'); } catch(e) { showToast('Failed!', true); } } }
-        async function deleteKey(code) { if (confirm('Delete this key?')) { try { await fetch(`api.php?action=deleteKey&code=${code}&t=${Date.now()}`); loadKeys(); showToast('Key deleted!'); } catch(e) { showToast('Failed!', true); } } }
-        
-        async function changePassword() {
-            let o = document.getElementById('oldPassword').value, n = document.getElementById('newPassword').value, c = document.getElementById('confirmPassword').value;
-            if (!o || !n) { showToast('Enter old and new password!', true); return; }
-            if (n !== c) { showToast('Passwords do not match!', true); return; }
-            if (n.length < 4) { showToast('Password too short!', true); return; }
-            try {
-                let res = await fetch(`api.php?action=changePassword&old=${encodeURIComponent(o)}&new=${encodeURIComponent(n)}&id=${currentUser.id}&role=${currentUser.role}&t=${Date.now()}`);
-                let d = await res.json();
-                if (d.success) { showToast('Password changed!'); document.getElementById('oldPassword').value = ''; document.getElementById('newPassword').value = ''; document.getElementById('confirmPassword').value = ''; }
-                else showToast(d.error || 'Failed!', true);
-            } catch(e) { showToast('Failed!', true); }
+        // ========== RESELLERS ==========
+        function loadResellers() {
+            let html = '';
+            resellers.forEach(r => {
+                let userCount = users.filter(u => u.reseller_id === r.id).length;
+                html += `<tr>
+                    <td>${r.id}</td>
+                    <td>${r.username}</td>
+                    <td>${r.balance}</td>
+                    <td>${userCount}</td>
+                    <td>${r.commission}%</td>
+                    <td><button class="btn btn-primary btn-sm" onclick="addCredits(${r.id})">Add Credits</button> <button class="btn btn-danger btn-sm" onclick="deleteReseller(${r.id})">Delete</button></td>
+                </tr>`;
+            });
+            document.querySelector('#resellersTable tbody').innerHTML = html || '<tr><td colspan="6">No resellers found</tr>';
         }
         
-        async function regenerateApiKey() { try { let res = await fetch(`api.php?action=regenerateApiKey&t=${Date.now()}`); let d = await res.json(); document.getElementById('apiKey').innerText = d.apiKey; showToast('API Key regenerated!'); } catch(e) { showToast('Failed!', true); } }
-        async function saveCustomization() { let link = document.getElementById('panelLink')?.value || '', desc = document.getElementById('panelDesc')?.value || ''; try { await fetch(`api.php?action=saveCustomization&link=${encodeURIComponent(link)}&desc=${encodeURIComponent(desc)}&t=${Date.now()}`); showToast('Customization saved!'); } catch(e) { showToast('Failed!', true); } }
-        
-        async function checkUpdate() {
-            let btn = document.getElementById('updateCheckBtn');
-            btn.innerHTML = '<div class="spinner"></div> Checking...'; btn.disabled = true;
-            try {
-                let res = await fetch(`api.php?action=checkUpdate&version=11.0&t=${Date.now()}`);
-                let d = await res.json();
-                document.getElementById('latestVersion').innerText = d.latestVersion || 'v11.0';
-                if (d.hasUpdate) {
-                    document.getElementById('updateBanner').style.display = 'block';
-                    document.getElementById('downloadUpdateBtn').style.display = 'inline-block';
-                    let ch = '<strong>Changelog:</strong><ul>'; (d.changelog || []).forEach(i => ch += `<li>${i}</li>`); ch += '</ul>';
-                    document.getElementById('changelog').innerHTML = ch;
-                    showToast('New update available!');
-                } else { document.getElementById('changelog').innerHTML = '<p>You are on latest version!</p>'; showToast('No updates available'); }
-            } catch(e) { showToast('Failed!', true); }
-            finally { btn.innerHTML = '<i class="fas fa-search"></i> Check for Updates'; btn.disabled = false; }
+        function openResellerModal() {
+            document.getElementById('resellerModal').style.display = 'flex';
         }
         
-        function downloadUpdate() { window.open('https://github.com/vanthex/kuru-panel/releases/latest', '_blank'); showToast('Opening download page...'); }
-        function logout() { currentUser = {}; document.getElementById('loginPanel').style.display = 'flex'; document.getElementById('mainApp').style.display = 'none'; showToast('Logged out'); }
-        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('collapsed'); document.getElementById('mainContent').classList.toggle('expanded'); }
-        function openUserModal() { document.getElementById('userModalTitle').innerText = 'Add User'; document.getElementById('editUserId').value = ''; document.getElementById('userUsername').value = ''; document.getElementById('userKey').value = ''; document.getElementById('userVip').value = '0'; document.getElementById('userStatus').value = 'active'; document.getElementById('userDays').value = '30'; document.getElementById('userModal').style.display = 'flex'; }
-        function openResellerModal() { document.getElementById('resellerModal').style.display = 'flex'; }
-        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+        function saveReseller() {
+            let username = document.getElementById('resellerUsername').value;
+            let password = document.getElementById('resellerPassword').value;
+            let credits = parseInt(document.getElementById('resellerCredits').value);
+            let commission = parseInt(document.getElementById('resellerCommission').value);
+            
+            if (!username || !password) {
+                showToast('Username and password required!', true);
+                return;
+            }
+            
+            let newReseller = {
+                id: nextResellerId++,
+                username: username,
+                password: password,
+                balance: credits,
+                commission: commission,
+                total_sales: 0
+            };
+            resellers.push(newReseller);
+            addLog(currentUser.username, `added reseller ${username}`);
+            saveData();
+            closeModal('resellerModal');
+            loadResellers();
+            showToast('Reseller added!');
+        }
         
-        window.onclick = function(e) { if (e.target.classList.contains('modal')) e.target.style.display = 'none'; };
-        document.getElementById('loginPassword')?.addEventListener('keypress', function(e) { if (e.key === 'Enter') doLogin(); });
+        function addCredits(id) {
+            let credits = prompt('Enter credits to add:');
+            if (credits && !isNaN(credits)) {
+                let index = resellers.findIndex(r => r.id === id);
+                if (index !== -1) {
+                    resellers[index].balance += parseInt(credits);
+                    if (currentUser.id === id) {
+                        currentUser.balance = resellers[index].balance;
+                        document.getElementById('myBalance').innerText = currentUser.balance;
+                        document.getElementById('userBalance').innerText = currentUser.balance + ' Credits';
+                    }
+                    addLog(currentUser.username, `added ${credits} credits to reseller ${resellers[index].username}`);
+                    saveData();
+                    loadResellers();
+                    showToast('Credits added!');
+                }
+            }
+        }
+        
+        function deleteReseller(id) {
+            if (confirm('Delete this reseller? All their users will be orphaned.')) {
+                let reseller = resellers.find(r => r.id === id);
+                resellers = resellers.filter(r => r.id !== id);
+                // Orphan users (set reseller_id to 0)
+                users.forEach(u => { if (u.reseller_id === id) u.reseller_id = 0; });
+                addLog(currentUser.username, `deleted reseller ${reseller?.username}`);
+                saveData();
+                loadResellers();
+                loadUsers();
+                showToast('Reseller deleted!');
+            }
+        }
+        
+        // ========== KEYS ==========
+        function loadKeys() {
+            let html = '';
+            let filteredKeys = currentUser.role === 'owner' ? keys : keys.filter(k => k.created_by === currentUser.username);
+            filteredKeys.forEach(k => {
+                html += `<tr>
+                    <td><code>${k.code}</code></td>
+                    <td><span class="badge ${k.status === 'used' ? 'badge-expired' : 'badge-active'}">${k.status}</span></td>
+                    <td>${k.used_by || '-'}</td>
+                    <td>${k.created_by || 'Owner'}</td>
+                    <td>${k.expiry}</td>
+                    <td><button class="btn btn-danger btn-sm" onclick="deleteKey('${k.code}')">Delete</button></td>
+                </tr>`;
+            });
+            document.querySelector('#keysTable tbody').innerHTML = html || '<td><td colspan="6">No keys found</tr>';
+        }
+        
+        function generateKey() {
+            let days = prompt('Enter key validity (days):', '30');
+            if (days && !isNaN(days)) {
+                let code = 'KURU' + Math.random().toString(36).substring(2, 10).toUpperCase();
+                let expiry = new Date();
+                expiry.setDate(expiry.getDate() + parseInt(days));
+                
+                let newKey = {
+                    code: code,
+                    status: 'unused',
+                    used_by: null,
+                    created_by: currentUser.username,
+                    expiry: expiry.toISOString().split('T')[0]
+                };
+                keys.push(newKey);
+                
+                if (currentUser.role === 'reseller') {
+                    let resellerIndex = resellers.findIndex(r => r.id === currentUser.id);
+                    if (resellerIndex !== -1) {
+                        resellers[resellerIndex].balance--;
+                        currentUser.balance = resellers[resellerIndex].balance;
+                        document.getElementById('myBalance').innerText = currentUser.balance;
+                        document.getElementById('userBalance').innerText = currentUser.balance + ' Credits';
+                    }
+                }
+                addLog(currentUser.username, `generated key ${code}`);
+                saveData();
+                loadKeys();
+                loadDashboard();
+                showToast('Key generated: ' + code);
+            }
+        }
+        
+        function deleteKey(code) {
+            if (confirm('Delete this key?')) {
+                keys = keys.filter(k => k.code !== code);
+                addLog(currentUser.username, `deleted key ${code}`);
+                saveData();
+                loadKeys();
+                showToast('Key deleted!');
+            }
+        }
+        
+        // ========== ONLINE USERS ==========
+        function loadOnlineUsers() {
+            let onlineUsers = users.filter(u => u.status === 'active');
+            let html = '';
+            onlineUsers.forEach(u => {
+                html += `<tr>
+                    <td>${u.username}</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>${u.last_login || 'Just now'}</td>
+                    <td><span class="status-online">🟢 Online</span></td>
+                </tr>`;
+            });
+            document.querySelector('#onlineTable tbody').innerHTML = html || '<tr><td colspan="5">No online users</tr>';
+        }
+        
+        // ========== LOGS ==========
+        function loadLogs() {
+            let html = '';
+            logs.slice(0, 50).forEach(l => {
+                html += `<tr>
+                    <td>${l.time}</td>
+                    <td>${l.user}</td>
+                    <td>${l.action}</td>
+                    <td>${l.ip}</td>
+                </tr>`;
+            });
+            document.querySelector('#logsTable tbody').innerHTML = html || '<tr><td colspan="4">No logs found</tr>';
+        }
+        
+        // ========== SETTINGS ==========
+        function loadSettings() {
+            document.getElementById('panelLink').value = settings.panelLink || window.location.href;
+            document.getElementById('panelDesc').value = settings.panelDesc || '';
+        }
+        
+        function saveCustomization() {
+            settings.panelLink = document.getElementById('panelLink').value;
+            settings.panelDesc = document.getElementById('panelDesc').value;
+            saveData();
+            showToast('Settings saved!');
+        }
+        
+        function changePassword() {
+            let oldPass = document.getElementById('oldPassword').value;
+            let newPass = document.getElementById('newPassword').value;
+            let confirmPass = document.getElementById('confirmPassword').value;
+            
+            if (currentUser.role === 'owner') {
+                if (oldPass !== 'sagarxmodder') {
+                    showToast('Current password incorrect!', true);
+                    return;
+                }
+            } else {
+                let reseller = resellers.find(r => r.id === currentUser.id);
+                if (!reseller || reseller.password !== oldPass) {
+                    showToast('Current password incorrect!', true);
+                    return;
+                }
+            }
+            
+            if (newPass !== confirmPass) {
+                showToast('Passwords do not match!', true);
+                return;
+            }
+            
+            if (newPass.length < 4) {
+                showToast('Password too short!', true);
+                return;
+            }
+            
+            if (currentUser.role === 'owner') {
+                // Owner password is hardcoded in this demo
+                showToast('Owner password cannot be changed in demo!', true);
+            } else {
+                let index = resellers.findIndex(r => r.id === currentUser.id);
+                if (index !== -1) {
+                    resellers[index].password = newPass;
+                    saveData();
+                    showToast('Password changed!');
+                }
+            }
+            document.getElementById('oldPassword').value = '';
+            document.getElementById('newPassword').value = '';
+            document.getElementById('confirmPassword').value = '';
+        }
+        
+        // ========== UTILITIES ==========
+        function logout() {
+            if (currentUser) {
+                addLog(currentUser.username, 'logout');
+            }
+            currentUser = null;
+            document.getElementById('loginPanel').style.display = 'flex';
+            document.getElementById('mainApp').style.display = 'none';
+            document.getElementById('loginUsername').value = 'owner';
+            document.getElementById('loginPassword').value = 'sagarxmodder';
+            document.getElementById('loginError').innerText = '';
+            showToast('Logged out');
+        }
+        
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+            document.getElementById('mainContent').classList.toggle('expanded');
+        }
+        
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+        
+        window.onclick = function(e) {
+            if (e.target.classList.contains('modal')) e.target.style.display = 'none';
+        };
+        
+        document.getElementById('loginPassword')?.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') doLogin();
+        });
     </script>
 </body>
 </html>
