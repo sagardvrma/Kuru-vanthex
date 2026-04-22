@@ -750,8 +750,8 @@
                         <h4><i class="fas fa-cogs"></i> ImGui Connection Guide</h4>
                         <pre style="background:#0a0a0a; padding:10px; border-radius:8px; overflow-x:auto; font-size:11px; margin-top:10px;">
 // ImGui Connection Code
-std::string serverURL = "<span id="apiUrlPreview">https://your-domain.com</span>";
-std::string url = serverURL + "/api/connect?key=" + key + "&device=" + device;
+std::string serverURL = "<span id="apiUrlPreview">https://kuru-vanthex-production.up.railway.app</span>";
+std::string url = serverURL + "/connect?key=" + key + "&device=" + device;
                         </pre>
                         <button class="btn btn-primary btn-sm" onclick="regenerateApiKey()">
                             <i class="fas fa-sync-alt"></i> Regenerate API Key
@@ -1023,7 +1023,7 @@ std::string url = serverURL + "/api/connect?key=" + key + "&device=" + device;
         
         function updateAPIEndpoint() {
             let apiUrl = window.location.origin;
-            document.getElementById('apiEndpoint').innerText = apiUrl + '/api/connect';
+            document.getElementById('apiEndpoint').innerText = apiUrl + 'connect';
             document.getElementById('apiUrlPreview').innerText = apiUrl;
             document.getElementById('apiKeyDisplay').innerText = settings.apiKey || 'Not configured';
         }
