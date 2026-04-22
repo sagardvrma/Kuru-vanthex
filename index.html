@@ -49,7 +49,7 @@
             50% { transform: translate(80px, 80px) rotate(180deg); }
         }
 
-        /* Professional Sidebar */
+        /* Sidebar */
         .sidebar {
             position: fixed;
             left: 0;
@@ -59,7 +59,7 @@
             background: rgba(10, 10, 25, 0.95);
             backdrop-filter: blur(20px);
             border-right: 1px solid rgba(255, 0, 100, 0.15);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 100;
             overflow-y: auto;
         }
@@ -68,17 +68,22 @@
             left: -280px;
         }
 
+        /* For mobile */
+        @media (max-width: 768px) {
+            .sidebar {
+                left: -280px;
+            }
+            .sidebar.mobile-open {
+                left: 0;
+            }
+            .main-content {
+                margin-left: 0 !important;
+                margin-top: 70px;
+            }
+        }
+
         .sidebar::-webkit-scrollbar {
             width: 4px;
-        }
-
-        .sidebar::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .sidebar::-webkit-scrollbar-thumb {
-            background: #ff006e;
-            border-radius: 10px;
         }
 
         .sidebar-header {
@@ -153,24 +158,6 @@
             overflow: hidden;
         }
 
-        .nav-item::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 0, 100, 0.3);
-            transform: translate(-50%, -50%);
-            transition: width 0.4s, height 0.4s;
-        }
-
-        .nav-item:active::before {
-            width: 200px;
-            height: 200px;
-        }
-
         .nav-item:hover {
             background: rgba(255, 0, 100, 0.1);
             transform: translateX(5px);
@@ -191,13 +178,35 @@
         .main-content {
             margin-left: 280px;
             padding: 20px;
-            transition: 0.3s;
+            transition: margin-left 0.3s ease;
             margin-top: 20px;
             margin-bottom: 20px;
         }
 
         .main-content.expanded {
             margin-left: 0;
+        }
+
+        /* Menu Toggle Button */
+        .menu-toggle {
+            position: fixed;
+            left: 20px;
+            top: 20px;
+            width: 48px;
+            height: 48px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 101;
+            border: 1px solid rgba(255, 0, 100, 0.3);
+            transition: all 0.3s;
+        }
+
+        .menu-toggle:active {
+            transform: scale(0.95);
         }
 
         /* Stats Cards */
@@ -216,30 +225,12 @@
             border: 1px solid rgba(255, 0, 100, 0.15);
             transition: all 0.3s;
             cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stat-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, transparent, rgba(255, 0, 100, 0.05));
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .stat-card:hover::after {
-            opacity: 1;
+            text-align: center;
         }
 
         .stat-card:hover {
             transform: translateY(-5px);
             border-color: rgba(255, 0, 100, 0.4);
-            box-shadow: 0 10px 30px rgba(255, 0, 100, 0.15);
         }
 
         .stat-card .icon {
@@ -257,12 +248,6 @@
             color: transparent;
         }
 
-        .stat-card .label {
-            font-size: 12px;
-            color: #888;
-            margin-top: 5px;
-        }
-
         /* Balance Card */
         .balance-card {
             background: linear-gradient(135deg, rgba(255, 0, 100, 0.15), rgba(0, 212, 255, 0.15));
@@ -270,33 +255,13 @@
             padding: 25px;
             margin-bottom: 30px;
             border: 1px solid rgba(255, 0, 100, 0.3);
-            position: relative;
-            overflow: hidden;
             text-align: center;
-        }
-
-        .balance-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 0, 110, 0.1) 0%, transparent 70%);
-            animation: rotate 10s linear infinite;
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
         }
 
         .balance-card .amount {
             font-size: 48px;
             font-weight: 700;
             color: #ff006e;
-            position: relative;
-            z-index: 1;
         }
 
         /* Cards */
@@ -307,11 +272,6 @@
             padding: 20px;
             margin-bottom: 20px;
             border: 1px solid rgba(255, 0, 100, 0.15);
-            transition: all 0.3s;
-        }
-
-        .card:hover {
-            border-color: rgba(255, 0, 100, 0.3);
         }
 
         .card-header {
@@ -336,26 +296,10 @@
             color: white;
             font-size: 14px;
             min-height: 48px;
-            position: relative;
-            overflow: hidden;
         }
 
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
-            transform: translate(-50%, -50%);
-            transition: width 0.4s, height 0.4s;
-        }
-
-        .btn:active::before {
-            width: 200px;
-            height: 200px;
+        .btn:active {
+            transform: scale(0.96);
         }
 
         .btn-primary {
@@ -409,7 +353,6 @@
             border-radius: 12px;
             color: white;
             font-size: 14px;
-            transition: all 0.3s;
         }
 
         input:focus, select:focus, textarea:focus {
@@ -441,12 +384,6 @@
             max-width: 400px;
             border: 1px solid rgba(255, 0, 100, 0.3);
             text-align: center;
-            animation: slideUp 0.5s;
-        }
-
-        @keyframes slideUp {
-            from { transform: translateY(50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
         }
 
         .login-box h1 {
@@ -480,29 +417,6 @@
             border: 1px solid rgba(255, 0, 100, 0.3);
             max-height: 90vh;
             overflow-y: auto;
-            animation: slideUp 0.3s;
-        }
-
-        /* Menu Toggle */
-        .menu-toggle {
-            position: fixed;
-            left: 20px;
-            top: 20px;
-            width: 48px;
-            height: 48px;
-            background: rgba(0, 0, 0, 0.8);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 101;
-            border: 1px solid rgba(255, 0, 100, 0.3);
-            transition: all 0.3s;
-        }
-
-        .menu-toggle:active {
-            transform: scale(0.95);
         }
 
         /* Toast */
@@ -518,7 +432,24 @@
             z-index: 2000;
             font-size: 14px;
             white-space: nowrap;
-            animation: slideUp 0.3s;
+        }
+
+        @media (max-width: 768px) {
+            .toast {
+                white-space: normal;
+                text-align: center;
+                max-width: 90%;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            .stat-card .value {
+                font-size: 24px;
+            }
+            .balance-card .amount {
+                font-size: 36px;
+            }
         }
 
         /* Spinner */
@@ -550,7 +481,7 @@
         .badge-vip { background: linear-gradient(135deg, #ff006e, #ff8800); }
         .badge-banned { background: #333; color: #ff6666; }
 
-        /* Maintenance & Update Banners */
+        /* Maintenance Banner */
         .maintenance-banner {
             background: linear-gradient(135deg, #ff3333, #cc0000);
             color: white;
@@ -564,29 +495,6 @@
             right: 0;
             z-index: 1000;
             display: none;
-            animation: slideDown 0.5s;
-        }
-
-        @keyframes slideDown {
-            from { transform: translateY(-100%); }
-            to { transform: translateY(0); }
-        }
-
-        .update-banner {
-            background: linear-gradient(135deg, #00ff88, #00cc66);
-            color: #000;
-            text-align: center;
-            padding: 12px;
-            font-size: 14px;
-            font-weight: 600;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            display: none;
-            cursor: pointer;
-            animation: slideUp 0.5s;
         }
 
         /* Toggle Switch */
@@ -632,35 +540,17 @@
 
         .status-online { color: #00ff88; }
         .api-endpoint { background: rgba(0,0,0,0.5); padding: 8px; border-radius: 8px; font-family: monospace; font-size: 12px; word-break: break-all; }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .sidebar { left: -280px; }
-            .main-content { margin-left: 0; margin-top: 70px; margin-bottom: 70px; }
-            .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-            .stat-card .value { font-size: 24px; }
-            .balance-card .amount { font-size: 36px; }
-            .toast { white-space: normal; text-align: center; max-width: 90%; }
-            .card-header { flex-direction: column; align-items: flex-start; }
-        }
     </style>
 </head>
 <body>
-    <!-- Animated Background -->
     <div class="bg-animation">
         <div class="circle"></div>
         <div class="circle"></div>
         <div class="circle"></div>
     </div>
 
-    <!-- Maintenance Banner -->
     <div id="maintenanceBanner" class="maintenance-banner">
-        <i class="fas fa-tools"></i> MAINTENANCE MODE ACTIVE - Only administrators can access the panel
-    </div>
-
-    <!-- Update Banner -->
-    <div id="updateBanner" class="update-banner" onclick="checkUpdate()">
-        <i class="fas fa-download"></i> New version available! Click here to download the latest update.
+        <i class="fas fa-tools"></i> MAINTENANCE MODE ACTIVE
     </div>
 
     <!-- Login Panel -->
@@ -686,7 +576,7 @@
         <div class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="logo">KURU<span style="color:#ff006e">PANEL</span></div>
-                <div class="version-badge">VANTHEX | API GATEWAY</div>
+                <div class="version-badge">VANTHEX | API GATEWAY v12</div>
             </div>
 
             <div class="user-info">
@@ -696,34 +586,34 @@
                 <div id="userBalance" style="font-size:12px; margin-top:8px"><i class="fas fa-coins"></i> Balance: 0 Credits</div>
             </div>
 
-            <div class="nav-item active" onclick="switchPage('dashboard')">
+            <div class="nav-item" data-page="dashboard">
                 <i class="fas fa-tachometer-alt"></i> <span>DASHBOARD</span>
             </div>
-            <div class="nav-item" onclick="switchPage('users')">
+            <div class="nav-item" data-page="users">
                 <i class="fas fa-users"></i> <span>USERS</span>
             </div>
-            <div id="resellerNav" class="nav-item" style="display:none;" onclick="switchPage('resellers')">
+            <div id="resellerNav" class="nav-item" data-page="resellers" style="display:none;">
                 <i class="fas fa-store"></i> <span>RESELLERS</span>
             </div>
-            <div class="nav-item" onclick="switchPage('keys')">
+            <div class="nav-item" data-page="keys">
                 <i class="fas fa-key"></i> <span>KEYS</span>
             </div>
-            <div class="nav-item" onclick="switchPage('online')">
+            <div class="nav-item" data-page="online">
                 <i class="fas fa-globe"></i> <span>ONLINE USERS</span>
             </div>
-            <div class="nav-item" onclick="switchPage('api')">
+            <div class="nav-item" data-page="api">
                 <i class="fas fa-code"></i> <span>API GATEWAY</span>
             </div>
-            <div class="nav-item" onclick="switchPage('maintenance')">
+            <div class="nav-item" data-page="maintenance">
                 <i class="fas fa-tools"></i> <span>MAINTENANCE</span>
             </div>
-            <div class="nav-item" onclick="switchPage('settings')">
+            <div class="nav-item" data-page="settings">
                 <i class="fas fa-cog"></i> <span>SETTINGS</span>
             </div>
-            <div class="nav-item" onclick="switchPage('logs')">
+            <div class="nav-item" data-page="logs">
                 <i class="fas fa-history"></i> <span>LOGS</span>
             </div>
-            <div class="nav-item" onclick="switchPage('updates')">
+            <div class="nav-item" data-page="updates">
                 <i class="fas fa-cloud-download-alt"></i> <span>UPDATES</span>
             </div>
             <div class="nav-item" onclick="logout()">
@@ -760,7 +650,7 @@
                 <div class="balance-card" id="balanceCard" style="display:none;">
                     <h3><i class="fas fa-coins"></i> MY CREDIT BALANCE</h3>
                     <div class="amount" id="myBalance">0</div>
-                    <p style="font-size:12px; color:#888; margin-top:10px;">⚡ 1 Credit = 1 License Key = 30 Days Access</p>
+                    <p style="font-size:12px; color:#888; margin-top:10px;">⚡ 1 Credit = 1 License Key = 30 Days</p>
                 </div>
                 
                 <div class="card">
@@ -773,7 +663,7 @@
                     <div class="table-container">
                         <table id="recentLoginsTable">
                             <thead><tr><th>User</th><th>IP Address</th><th>Device</th><th>Timestamp</th></tr></thead>
-                            <tbody><tr><td colspan="4">No activity recorded</td></tr></tbody>
+                            <tbody><tr><td colspan="4">No activity recorded</td></tr>
                         </table>
                     </div>
                 </div>
@@ -782,7 +672,7 @@
             <!-- Users Page -->
             <div id="usersPage" class="page-content" style="display:none;">
                 <div style="margin-bottom:20px; display:flex; gap:10px; flex-wrap:wrap;">
-                    <button class="btn btn-primary" onclick="openUserModal()"><i class="fas fa-plus"></i> ADD NEW USER</button>
+                    <button class="btn btn-primary" onclick="openUserModal()"><i class="fas fa-plus"></i> ADD USER</button>
                     <button class="btn btn-primary" onclick="loadUsers()"><i class="fas fa-sync-alt"></i> REFRESH</button>
                 </div>
                 <div class="card">
@@ -842,7 +732,7 @@
                 </div>
             </div>
 
-            <!-- API Gateway Page (for ImGui connection) -->
+            <!-- API Gateway Page -->
             <div id="apiPage" class="page-content" style="display:none;">
                 <div class="card">
                     <div class="card-header">
@@ -858,18 +748,12 @@
                     </div>
                     <div style="margin-top:15px; padding:15px; background:rgba(0,0,0,0.3); border-radius:12px;">
                         <h4><i class="fas fa-cogs"></i> ImGui Connection Guide</h4>
-                        <p style="font-size:12px; color:#aaa; margin-top:10px;">
-                            Use the following endpoint in your ImGui C++ code to validate keys:
-                        </p>
                         <pre style="background:#0a0a0a; padding:10px; border-radius:8px; overflow-x:auto; font-size:11px; margin-top:10px;">
 // ImGui Connection Code
-std::string serverURL = "<span id="apiUrlPreview">https://kuru-vanthex-production.up.railway.app/connect</span>";
-std::string url = serverURL + "/connect?key=" + key + "&device=" + device;
-
-// Example response:
-// {"success":true,"message":"Key valid","expiry":"2025-12-31","vip":true}
+std::string serverURL = "<span id="apiUrlPreview">https://your-domain.com</span>";
+std::string url = serverURL + "/api/connect?key=" + key + "&device=" + device;
                         </pre>
-                        <button class="btn btn-primary btn-sm" onclick="regenerateApiKey()" style="margin-top:10px">
+                        <button class="btn btn-primary btn-sm" onclick="regenerateApiKey()">
                             <i class="fas fa-sync-alt"></i> Regenerate API Key
                         </button>
                     </div>
@@ -887,10 +771,6 @@ std::string url = serverURL + "/connect?key=" + key + "&device=" + device;
                     <p style="font-size:12px; color:#888; margin:10px 0">
                         <i class="fas fa-info-circle"></i> When enabled, only administrators can access the panel.
                     </p>
-                    <input type="text" id="maintenanceMessage" placeholder="Custom Maintenance Message" value="We are performing scheduled maintenance. Please check back later.">
-                    <button class="btn btn-primary btn-sm" onclick="updateMaintenanceMessage()" style="margin-top:10px">
-                        <i class="fas fa-save"></i> Save Message
-                    </button>
                 </div>
             </div>
 
@@ -901,20 +781,20 @@ std::string url = serverURL + "/connect?key=" + key + "&device=" + device;
                     <input type="password" id="oldPassword" placeholder="Current Password">
                     <input type="password" id="newPassword" placeholder="New Password">
                     <input type="password" id="confirmPassword" placeholder="Confirm Password">
-                    <button class="btn btn-primary" onclick="changePassword()"><i class="fas fa-save"></i> UPDATE PASSWORD</button>
+                    <button class="btn btn-primary" onclick="changePassword()">UPDATE PASSWORD</button>
                 </div>
                 <div class="card">
                     <div class="card-header"><h3><i class="fas fa-palette"></i> CUSTOMIZATION</h3></div>
                     <input type="text" id="panelLink" placeholder="Panel URL">
                     <textarea id="panelDesc" rows="2" placeholder="Panel Description"></textarea>
-                    <button class="btn btn-primary btn-sm" onclick="saveCustomization()"><i class="fas fa-save"></i> Save Settings</button>
+                    <button class="btn btn-primary btn-sm" onclick="saveCustomization()">Save Settings</button>
                 </div>
             </div>
 
             <!-- Logs Page -->
             <div id="logsPage" class="page-content" style="display:none;">
                 <div style="margin-bottom:20px;">
-                    <button class="btn btn-primary" onclick="loadLogs()"><i class="fas fa-sync-alt"></i> REFRESH</button>
+                    <button class="btn btn-primary" onclick="loadLogs()">REFRESH</button>
                 </div>
                 <div class="card">
                     <div class="table-container">
@@ -931,10 +811,14 @@ std::string url = serverURL + "/connect?key=" + key + "&device=" + device;
                 <div class="card">
                     <div class="card-header"><h3><i class="fas fa-cloud-download-alt"></i> SYSTEM UPDATES</h3></div>
                     <div id="updateInfo">
-                        <p>Current Version: <strong>v1/strong></p>
-                        <p>Latest Version: <span id="latestVersion">Checking...</span></p>
-                        <div id="changelog" style="margin:15px 0; padding:10px; background:rgba(0,0,0,0.3); border-radius:10px;"></div>
-                        <button class="btn btn-primary" onclick="checkUpdate()" id="updateCheckBtn">
+                        <p>Current Version: <strong>v12.0</strong></p>
+                        <p>Latest Version: <span id="latestVersion">v12.0</span></p>
+                        <div id="changelog" style="margin:15px 0; padding:10px; background:rgba(0,0,0,0.3); border-radius:10px;">
+                            • API Gateway for ImGui<br>
+                            • Key validation endpoint<br>
+                            • Enhanced security
+                        </div>
+                        <button class="btn btn-primary" onclick="checkUpdate()">
                             <i class="fas fa-search"></i> Check for Updates
                         </button>
                     </div>
@@ -946,7 +830,7 @@ std::string url = serverURL + "/connect?key=" + key + "&device=" + device;
     <!-- User Modal -->
     <div id="userModal" class="modal">
         <div class="modal-content">
-            <h2 id="userModalTitle"><i class="fas fa-user-plus"></i> Add User</h2>
+            <h2 id="userModalTitle">Add User</h2>
             <input type="hidden" id="editUserId">
             <input type="text" id="userUsername" placeholder="Username">
             <input type="text" id="userKey" placeholder="License Key">
@@ -960,7 +844,7 @@ std::string url = serverURL + "/connect?key=" + key + "&device=" + device;
     <!-- Reseller Modal -->
     <div id="resellerModal" class="modal">
         <div class="modal-content">
-            <h2><i class="fas fa-store"></i> Add Reseller</h2>
+            <h2>Add Reseller</h2>
             <input type="text" id="resellerUsername" placeholder="Username">
             <input type="password" id="resellerPassword" placeholder="Password">
             <input type="number" id="resellerCredits" placeholder="Initial Credits" value="100">
@@ -972,6 +856,8 @@ std::string url = serverURL + "/connect?key=" + key + "&device=" + device;
     <script>
         // ========== DATA STORAGE ==========
         let currentUser = null;
+        let isMobile = window.innerWidth <= 768;
+        
         let users = JSON.parse(localStorage.getItem('kuru_users')) || [];
         let resellers = JSON.parse(localStorage.getItem('kuru_resellers')) || [];
         let keys = JSON.parse(localStorage.getItem('kuru_keys')) || [];
@@ -980,14 +866,13 @@ std::string url = serverURL + "/connect?key=" + key + "&device=" + device;
             panelLink: window.location.href, 
             panelDesc: 'API Gateway',
             maintenance: false,
-            maintenanceMessage: 'Maintenance mode active',
             apiKey: 'KURU-' + Math.random().toString(36).substring(2, 15).toUpperCase()
         };
         
         let nextUserId = users.length + 1;
         let nextResellerId = resellers.length + 1;
         
-        // Add sample demo users if empty
+        // Add sample data if empty
         if (users.length === 0) {
             users.push({ id: 1, username: 'demo_user', key: 'DEMO2024', vip: 0, expiry: '2025-12-31', status: 'active', reseller_id: 0 });
             nextUserId = 2;
@@ -1023,7 +908,6 @@ std::string url = serverURL + "/connect?key=" + key + "&device=" + device;
         function doLogin() {
             let username = document.getElementById('loginUsername').value;
             let password = document.getElementById('loginPassword').value;
-            let btn = document.getElementById('loginBtn');
             
             if (username === 'owner' && password === 'sagarxmodder') {
                 currentUser = { id: 0, username: 'owner', role: 'owner', balance: 999999 };
@@ -1059,10 +943,88 @@ std::string url = serverURL + "/connect?key=" + key + "&device=" + device;
             }
         }
         
+        // ========== SIDEBAR TOGGLE (FIXED) ==========
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('mainContent');
+            
+            if (isMobile) {
+                sidebar.classList.toggle('mobile-open');
+            } else {
+                sidebar.classList.toggle('collapsed');
+                mainContent.classList.toggle('expanded');
+            }
+        }
+        
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(e) {
+            if (isMobile) {
+                const sidebar = document.getElementById('sidebar');
+                const menuToggle = document.querySelector('.menu-toggle');
+                if (sidebar && sidebar.classList.contains('mobile-open') && 
+                    !sidebar.contains(e.target) && 
+                    menuToggle && !menuToggle.contains(e.target)) {
+                    sidebar.classList.remove('mobile-open');
+                }
+            }
+        });
+        
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            isMobile = window.innerWidth <= 768;
+            if (!isMobile) {
+                document.getElementById('sidebar').classList.remove('mobile-open');
+            }
+        });
+        
+        // ========== PAGE SWITCHING (FIXED) ==========
+        function switchPage(page) {
+            // Hide all pages
+            document.querySelectorAll('.page-content').forEach(p => p.style.display = 'none');
+            
+            // Show selected page
+            let pageEl = document.getElementById(page + 'Page');
+            if (pageEl) pageEl.style.display = 'block';
+            
+            // Update active nav item
+            document.querySelectorAll('.nav-item').forEach(n => {
+                n.classList.remove('active');
+                if (n.getAttribute('data-page') === page) {
+                    n.classList.add('active');
+                }
+            });
+            
+            // Close sidebar on mobile after navigation
+            if (isMobile) {
+                const sidebar = document.getElementById('sidebar');
+                if (sidebar) sidebar.classList.remove('mobile-open');
+            }
+            
+            // Load page specific data
+            if (page === 'dashboard') loadDashboard();
+            else if (page === 'users') loadUsers();
+            else if (page === 'resellers') loadResellers();
+            else if (page === 'keys') loadKeys();
+            else if (page === 'online') loadOnlineUsers();
+            else if (page === 'logs') loadLogs();
+            else if (page === 'maintenance') loadMaintenancePage();
+            else if (page === 'settings') loadSettings();
+            else if (page === 'api') updateAPIEndpoint();
+            else if (page === 'updates') checkUpdate();
+        }
+        
+        // Attach click handlers to nav items
+        document.querySelectorAll('.nav-item[data-page]').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.stopPropagation();
+                switchPage(this.getAttribute('data-page'));
+            });
+        });
+        
         function updateAPIEndpoint() {
-            let apiUrl = window.location.origin + '/connect';
-            document.getElementById('apiEndpoint').innerText = apiUrl;
-            document.getElementById('apiUrlPreview').innerText = window.location.origin;
+            let apiUrl = window.location.origin;
+            document.getElementById('apiEndpoint').innerText = apiUrl + '/api/connect';
+            document.getElementById('apiUrlPreview').innerText = apiUrl;
             document.getElementById('apiKeyDisplay').innerText = settings.apiKey || 'Not configured';
         }
         
@@ -1074,33 +1036,10 @@ std::string url = serverURL + "/connect?key=" + key + "&device=" + device;
             showToast('API Key regenerated successfully!');
         }
         
-        // ========== PAGE SWITCHING (FIXED) ==========
-        function switchPage(page) {
-            document.querySelectorAll('.page-content').forEach(p => p.style.display = 'none');
-            let pageEl = document.getElementById(page + 'Page');
-            if (pageEl) pageEl.style.display = 'block';
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            if (event && event.target) {
-                let navItem = event.target.closest('.nav-item');
-                if (navItem) navItem.classList.add('active');
-            }
-            
-            if (page === 'dashboard') loadDashboard();
-            else if (page === 'users') loadUsers();
-            else if (page === 'resellers') loadResellers();
-            else if (page === 'keys') loadKeys();
-            else if (page === 'online') loadOnlineUsers();
-            else if (page === 'logs') loadLogs();
-            else if (page === 'maintenance') loadMaintenancePage();
-            else if (page === 'settings') loadSettings();
-            else if (page === 'api') { updateAPIEndpoint(); }
-            else if (page === 'updates') checkUpdate();
-        }
-        
         // ========== DASHBOARD ==========
         function loadDashboard() {
             document.getElementById('totalUsers').innerText = users.length;
-            document.getElementById('vipUsers').innerText = users.filter(u => u.vip).length;
+            document.getElementById('vipUsers').innerText = users.filter(u => u.vip === 1).length;
             document.getElementById('totalKeys').innerText = keys.length;
             document.getElementById('activeUsers').innerText = users.filter(u => u.status === 'active').length;
             if (currentUser.role === 'reseller') {
@@ -1113,7 +1052,7 @@ std::string url = serverURL + "/connect?key=" + key + "&device=" + device;
         function loadRecentLogins() {
             let recent = logs.slice(0, 10);
             let html = '';
-            recent.forEach(l => { html += `<tr><td>${l.user}</td><td>${l.ip}</td><td>-</td><td>${l.time}</td></tr>`; });
+            recent.forEach(l => { html += `<tr><td>${escapeHtml(l.user)}</td><td>${escapeHtml(l.ip)}</td><td>-</td><td>${escapeHtml(l.time)}</td></tr>`; });
             document.querySelector('#recentLoginsTable tbody').innerHTML = html || '<tr><td colspan="4">No activity recorded</td></tr>';
         }
         
@@ -1125,20 +1064,20 @@ std::string url = serverURL + "/connect?key=" + key + "&device=" + device;
                 let statusBadge = u.status === 'active' ? '<span class="badge badge-active">Active</span>' : '<span class="badge badge-banned">Banned</span>';
                 html += `<tr>
                     <td>${u.id}</td>
-                    <td>${u.username}</td>
-                    <td><code>${u.key || '-'}</code></td>
+                    <td>${escapeHtml(u.username)}</td>
+                    <td><code>${escapeHtml(u.key || '-')}</code></td>
                     <td>${u.vip ? '<span class="badge badge-vip">VIP</span>' : 'Regular'}</td>
                     <td>${u.expiry || '-'}</td>
                     <td>${statusBadge}</td>
                     <td>${currentUser.role === 'owner' ? (u.reseller_id ? (resellers.find(r => r.id === u.reseller_id)?.username || 'Owner') : 'Owner') : '-'}</td>
-                    <td><button class="btn btn-primary btn-sm" onclick="editUser(${u.id})"><i class="fas fa-edit"></i> Edit</button> <button class="btn btn-danger btn-sm" onclick="deleteUser(${u.id})"><i class="fas fa-trash"></i> Del</button></td>
+                    <td><button class="btn btn-primary btn-sm" onclick="editUser(${u.id})">Edit</button> <button class="btn btn-danger btn-sm" onclick="deleteUser(${u.id})">Del</button></td>
                 </tr>`;
             });
             document.querySelector('#usersTable tbody').innerHTML = html || '<tr><td colspan="8">No users found</td></tr>';
         }
         
         function openUserModal() {
-            document.getElementById('userModalTitle').innerHTML = '<i class="fas fa-user-plus"></i> Add User';
+            document.getElementById('userModalTitle').innerHTML = 'Add User';
             document.getElementById('editUserId').value = '';
             document.getElementById('userUsername').value = '';
             document.getElementById('userKey').value = '';
@@ -1151,7 +1090,7 @@ std::string url = serverURL + "/connect?key=" + key + "&device=" + device;
         function editUser(id) {
             let user = users.find(u => u.id === id);
             if (user) {
-                document.getElementById('userModalTitle').innerHTML = '<i class="fas fa-user-edit"></i> Edit User';
+                document.getElementById('userModalTitle').innerHTML = 'Edit User';
                 document.getElementById('editUserId').value = user.id;
                 document.getElementById('userUsername').value = user.username;
                 document.getElementById('userKey').value = user.key || '';
@@ -1164,38 +1103,34 @@ std::string url = serverURL + "/connect?key=" + key + "&device=" + device;
         
         function saveUser() {
             let id = document.getElementById('editUserId').value;
-            let userData = {
-                username: document.getElementById('userUsername').value,
-                key: document.getElementById('userKey').value,
-                vip: parseInt(document.getElementById('userVip').value),
-                status: document.getElementById('userStatus').value,
-                days: document.getElementById('userDays').value
-            };
-            if (!userData.username) { showToast('Username required!', true); return; }
+            let username = document.getElementById('userUsername').value.trim();
+            if (!username) { showToast('Username required!', true); return; }
             
             if (id) {
                 let index = users.findIndex(u => u.id == id);
                 if (index !== -1) {
-                    users[index].username = userData.username;
-                    users[index].key = userData.key;
-                    users[index].vip = userData.vip;
-                    users[index].status = userData.status;
-                    if (userData.days && userData.days > 0) {
-                        let expiry = new Date(); expiry.setDate(expiry.getDate() + parseInt(userData.days));
+                    users[index].username = username;
+                    users[index].key = document.getElementById('userKey').value;
+                    users[index].vip = parseInt(document.getElementById('userVip').value);
+                    users[index].status = document.getElementById('userStatus').value;
+                    let days = document.getElementById('userDays').value;
+                    if (days && parseInt(days) > 0) {
+                        let expiry = new Date(); expiry.setDate(expiry.getDate() + parseInt(days));
                         users[index].expiry = expiry.toISOString().split('T')[0];
                     }
-                    addLog(currentUser.username, `updated user: ${userData.username}`);
+                    addLog(currentUser.username, `updated user: ${username}`);
                     showToast('User updated!');
                 }
             } else {
-                let expiry = new Date(); expiry.setDate(expiry.getDate() + parseInt(userData.days));
-                let newUser = { id: nextUserId++, username: userData.username, key: userData.key, vip: userData.vip, expiry: expiry.toISOString().split('T')[0], status: userData.status, reseller_id: currentUser.role === 'reseller' ? currentUser.id : 0 };
+                let days = parseInt(document.getElementById('userDays').value) || 30;
+                let expiry = new Date(); expiry.setDate(expiry.getDate() + days);
+                let newUser = { id: nextUserId++, username: username, key: document.getElementById('userKey').value, vip: parseInt(document.getElementById('userVip').value), expiry: expiry.toISOString().split('T')[0], status: document.getElementById('userStatus').value, reseller_id: currentUser.role === 'reseller' ? currentUser.id : 0 };
                 users.push(newUser);
                 if (currentUser.role === 'reseller') {
                     let rIdx = resellers.findIndex(r => r.id === currentUser.id);
                     if (rIdx !== -1) { resellers[rIdx].balance--; currentUser.balance = resellers[rIdx].balance; document.getElementById('myBalance').innerText = currentUser.balance; document.getElementById('userBalance').innerHTML = `<i class="fas fa-coins"></i> Balance: ${currentUser.balance} Credits`; }
                 }
-                addLog(currentUser.username, `added user: ${userData.username}`);
+                addLog(currentUser.username, `added user: ${username}`);
                 showToast('User added!');
             }
             saveData();
@@ -1221,8 +1156,8 @@ std::string url = serverURL + "/connect?key=" + key + "&device=" + device;
             let html = '';
             resellers.forEach(r => {
                 let userCount = users.filter(u => u.reseller_id === r.id).length;
-                html += `<tr><td>${r.id}</td><td>${r.username}</td><td><i class="fas fa-coins"></i> ${r.balance}</td><td>${userCount}</td><td>${r.commission}%</td>
-                <td><button class="btn btn-primary btn-sm" onclick="addCredits(${r.id})"><i class="fas fa-plus-circle"></i> Add Credits</button> <button class="btn btn-danger btn-sm" onclick="deleteReseller(${r.id})"><i class="fas fa-trash"></i> Delete</button></td></tr>`;
+                html += `<tr><td>${r.id}</td><td>${escapeHtml(r.username)}</td><td><i class="fas fa-coins"></i> ${r.balance}</td><td>${userCount}</td><td>${r.commission}%</td>
+                <td><button class="btn btn-primary btn-sm" onclick="addCredits(${r.id})">Add Credits</button> <button class="btn btn-danger btn-sm" onclick="deleteReseller(${r.id})">Delete</button></td></tr>`;
             });
             document.querySelector('#resellersTable tbody').innerHTML = html || '<tr><td colspan="6">No resellers found</td></tr>';
         }
@@ -1277,15 +1212,19 @@ std::string url = serverURL + "/connect?key=" + key + "&device=" + device;
             let filteredKeys = currentUser.role === 'owner' ? keys : keys.filter(k => k.created_by === currentUser.username);
             let html = '';
             filteredKeys.forEach(k => {
-                html += `<tr><td><code>${k.code}</code></td><td><span class="badge ${k.status === 'used' ? 'badge-expired' : 'badge-active'}">${k.status}</span></td><td>${k.used_by || '-'}</td><td>${k.created_by || 'Owner'}</td><td>${k.expiry}</td>
-                <td><button class="btn btn-danger btn-sm" onclick="deleteKey('${k.code}')"><i class="fas fa-trash"></i> Delete</button></td></tr>`;
+                html += `<tr><td><code>${escapeHtml(k.code)}</code></td><td><span class="badge ${k.status === 'used' ? 'badge-expired' : 'badge-active'}">${k.status}</span></td><td>${escapeHtml(k.used_by || '-')}</td><td>${escapeHtml(k.created_by || 'Owner')}</td><td>${k.expiry}</td>
+                <td><button class="btn btn-danger btn-sm" onclick="deleteKey('${k.code}')">Delete</button></td></tr>`;
             });
             document.querySelector('#keysTable tbody').innerHTML = html || '<tr><td colspan="6">No keys found</td></tr>';
         }
         
         function generateKey() {
             let days = prompt('Key validity (days):', '30');
-            if (days && !isNaN(days)) {
+            if (days && !isNaN(days) && parseInt(days) > 0) {
+                if (currentUser.role === 'reseller' && currentUser.balance <= 0) {
+                    showToast('Insufficient credits!', true);
+                    return;
+                }
                 let code = 'KURU' + Math.random().toString(36).substring(2, 10).toUpperCase();
                 let expiry = new Date(); expiry.setDate(expiry.getDate() + parseInt(days));
                 let newKey = { code: code, status: 'unused', used_by: null, created_by: currentUser.username, expiry: expiry.toISOString().split('T')[0] };
@@ -1317,7 +1256,7 @@ std::string url = serverURL + "/connect?key=" + key + "&device=" + device;
             let onlineUsers = users.filter(u => u.status === 'active');
             let html = '';
             onlineUsers.forEach(u => {
-                html += `<tr><td>${u.username}</td><td>${u.ip || '-'}</td><td>${u.device || '-'}</td><td>${u.last_login || 'Just now'}</td><td><span class="status-online"><i class="fas fa-circle"></i> Online</span></td></tr>`;
+                html += `<tr><td>${escapeHtml(u.username)}</td><td>${u.ip || '-'}</td><td>${u.device || '-'}</td><td>${u.last_login || 'Just now'}</td><td><span class="status-online"><i class="fas fa-circle"></i> Online</span></td></tr>`;
             });
             document.querySelector('#onlineTable tbody').innerHTML = html || '<tr><td colspan="5">No online users</td></tr>';
         }
@@ -1327,7 +1266,6 @@ std::string url = serverURL + "/connect?key=" + key + "&device=" + device;
             let toggle = document.getElementById('maintenanceToggle');
             if (settings.maintenance) { toggle.classList.add('active'); document.getElementById('maintenanceBanner').style.display = 'block'; }
             else { toggle.classList.remove('active'); document.getElementById('maintenanceBanner').style.display = 'none'; }
-            document.getElementById('maintenanceMessage').value = settings.maintenanceMessage || 'Maintenance mode active';
         }
         
         function toggleMaintenance() {
@@ -1337,12 +1275,6 @@ std::string url = serverURL + "/connect?key=" + key + "&device=" + device;
             if (newState) { toggle.classList.add('active'); document.getElementById('maintenanceBanner').style.display = 'block'; addLog(currentUser.username, 'enabled maintenance mode'); showToast('Maintenance mode enabled'); }
             else { toggle.classList.remove('active'); document.getElementById('maintenanceBanner').style.display = 'none'; addLog(currentUser.username, 'disabled maintenance mode'); showToast('Maintenance mode disabled'); }
             saveData();
-        }
-        
-        function updateMaintenanceMessage() {
-            settings.maintenanceMessage = document.getElementById('maintenanceMessage').value;
-            saveData();
-            showToast('Maintenance message updated!');
         }
         
         // ========== SETTINGS ==========
@@ -1381,23 +1313,26 @@ std::string url = serverURL + "/connect?key=" + key + "&device=" + device;
         // ========== LOGS ==========
         function loadLogs() {
             let html = '';
-            logs.slice(0, 100).forEach(l => { html += `<tr><td>${l.time}</td><td>${l.user}</td><td>${l.action}</td><td>${l.ip}</td></tr>`; });
+            logs.slice(0, 100).forEach(l => { html += `<tr><td>${escapeHtml(l.time)}</td><td>${escapeHtml(l.user)}</td><td>${escapeHtml(l.action)}</td><td>${escapeHtml(l.ip)}</td></tr>`; });
             document.querySelector('#logsTable tbody').innerHTML = html || '<tr><td colspan="4">No logs found</td></tr>';
         }
         
         // ========== UPDATES ==========
         function checkUpdate() {
-            let btn = document.getElementById('updateCheckBtn');
-            btn.innerHTML = '<div class="spinner"></div> Checking...'; btn.disabled = true;
-            setTimeout(() => {
-                document.getElementById('latestVersion').innerText = 'V1.0';
-                document.getElementById('changelog').innerHTML = '• API Gateway for ImGui<br>• Key validation endpoint<br>• Enhanced security<br>• Performance optimizations';
-                showToast('You are on the latest version!');
-                btn.innerHTML = '<i class="fas fa-search"></i> Check for Updates'; btn.disabled = false;
-            }, 1000);
+            showToast('You are on the latest version!');
         }
         
         // ========== UTILITIES ==========
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            });
+        }
+        
         function logout() {
             if (currentUser) addLog(currentUser.username, 'logout');
             currentUser = null;
@@ -1406,11 +1341,6 @@ std::string url = serverURL + "/connect?key=" + key + "&device=" + device;
             document.getElementById('loginUsername').value = 'owner';
             document.getElementById('loginPassword').value = 'sagarxmodder';
             showToast('Logged out');
-        }
-        
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('collapsed');
-            document.getElementById('mainContent').classList.toggle('expanded');
         }
         
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
