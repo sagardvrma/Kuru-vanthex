@@ -1,0 +1,11 @@
+{
+  "build": {
+    "builder": "NIXPACKS",
+    "buildCommand": "composer install && pip install -r requirements.txt"
+  },
+  "deploy": {
+    "startCommand": "php -S 0.0.0.0:$PORT",
+    "healthcheckPath": "/",
+    "restartPolicyType": "ON_FAILURE"
+  }
+}
