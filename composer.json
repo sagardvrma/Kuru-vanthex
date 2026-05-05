@@ -1,0 +1,7 @@
+{
+    "name": "vantex/bot-hosting",
+    "description": "Telegram Bot Hosting Platform",
+    "require": {
+        "google/apiclient": "^2.15"
+    }
+}
